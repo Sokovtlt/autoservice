@@ -11,7 +11,7 @@ With this web application, car owners can find the nearest car repair station an
 
 
 ## <a id="start">Start</a>
-To run the application, download the project files. Create docker-compose.yml file and add the Django secret key.
+To run the application, download the project files. Download static.zip [here](https://drive.google.com/drive/folders/1JoHl8JHkdApiKgjUOxkFsL0fm4m7QgcF?usp=sharing) and put it to folder account. Create docker-compose.yml file and add the Django secret key.
 
 ```python
 version: '3.8'
