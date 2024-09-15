@@ -1,7 +1,7 @@
 # Web applications for interaction between car owners and service stations
 With this web application, car owners can find the nearest car repair station and get a repair offer. Car owners create a personal account and add their car to it. They create a car repair order. They can choose what kind of service they need: tire fitting, technical inspection or body repair. Registered car repair stations see this order in their personal account. They can make an offer to the customer.
 
-## Содержание
+## Content
 - [Start](#start)
 - [Technologies](#tech)
 - [Nuances](#nuances)
