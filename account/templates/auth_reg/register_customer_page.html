@@ -1,0 +1,149 @@
+{% extends 'start_page.html' %}
+{% block page_title %}Registration{% endblock %}
+{% block style %}
+{% endblock style %}
+
+{% block content %}
+
+<div class="page-inner bg-light cs-register-page">
+    <div class="row justify-content-center">
+        <div class="col-xl-6 col-12">
+
+            <div class="shadow p-1 mt-5 mb-5 bg-white rounded-10">
+                <div class=" card">
+
+                    <div class="card-header">
+                        <h1 class="">{{w_registration}}</h1>
+                        <b style="font-size:18px;">{{w_as_customer}}</b>
+                    </div>
+
+                    <div class="card-body">
+                        <form id="add_form" method="post">
+                        {% csrf_token %}
+                            <div class="form-group register-form">
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                    {{ form.titul.label_tag }}
+                                    {{ form.titul }}
+                                    {% if form.titul.errors %}
+                                    {{ form.titul.errors }}
+                                    {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                    {{ form.first_name.label_tag }}
+                                    {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                    {{ form.first_name.errors }}
+                                    {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    {{ form.last_name.label_tag }}
+                                    {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                    {{ form.last_name.errors }}
+                                    {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                    {{ form.email.label_tag }}
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                    {{ form.email.errors }}
+                                    {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                    {{ form.city.label_tag }}
+                                    {{ form.city }}
+                                    {% if form.city.errors %}
+                                    {{ form.city.errors }}
+                                    {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                    {{ form.street.label_tag }}
+                                    {{ form.street }}
+                                    {% if form.street.errors %}
+                                    {{ form.street.errors }}
+                                    {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                    {{ form.phone.label_tag }}
+                                    {{ form.phone }}
+                                    {% if form.phone.errors %}
+                                    {{ form.phone.errors }}
+                                    {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                    {{ form.address_code.label_tag }}
+                                    {{ form.address_code }}
+                                    {% if form.address_code.errors %}
+                                    {{ form.address_code.errors }}
+                                    {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                    {{ form.password.label_tag }}
+                                    {{ form.password }}
+                                    {% if form.password.errors %}
+                                    {{ form.password.errors }}
+                                    {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="id_password_2">Confirm password:</label>
+                                        <input id="password_2" class="form-control" type="password" name="password_2"
+                                               required="true">
+                                        <div id="msg"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <div class="form-check form-check-inline ml-2">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" required="true">
+                                  I agree with terms and conditions</label>
+                                </div>
+                            </div>
+                            <div class="col-6 text-end">
+                                <button form="add_form" type="submit" class="btn btn-secondary">Register</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+    $(document).ready(function(){
+        $("#id_titul option[value='']").text("optional");
+        $("#id_password").attr('type', 'password');
+        $("#password_2").keyup(function(){
+             if ($("#id_password").val() != $("#password_2").val()) {
+                 $("#msg").html("Password do not match").css("color","red");
+             }else{
+                 $("#msg").html("Password matched").css("color","green");
+             }
+        });
+    });
+</script>
+
+{% endblock %}

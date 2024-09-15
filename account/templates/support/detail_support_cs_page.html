@@ -1,0 +1,166 @@
+{% extends 'customer/customer.html' %}
+{% block page_title %}Ticket | AutoDaddy{% endblock %}
+{% load static %}
+{% block style %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+{% endblock style %}
+
+{% block content %}
+
+        <div class="col-10 col-md-9 offset-13 main-page" id="main">
+
+            <div class="row mb-2">
+                <div class="col-12">
+                    <a type="button" class="btn-back" href="{{url_customer_sp_page}}">
+                        <i class="fas fa-caret-left me-1"></i>Back</a>
+                </div>
+            </div>
+
+                <!-- так выводиться сообщения из класса CustomSuccessMessageMixin-->
+                {% if messages %}
+                    <div class="alert alert-success">
+                      {% for m in messages %}
+                        {{m}}
+                      {% endfor %}
+                    </div>
+                {% endif %}
+
+
+            <div class="row equal mt-4">
+
+                <div class="col-md-6">
+                    <div class="shadow p-1 mb-3 bg-white rounded-10">
+                        <div class="card-body">
+                            <div class="card card-messanger">
+                              <div class="card-header text-center">
+                                Ticket #{{ ticket }} {% if solved %} - SOLVED{% endif %}
+                              </div>
+
+                                <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0"
+                                     class="scrollspy-message{% if solved %} archive-mes{% endif %}" tabindex="0">
+                                    <h4 id="first-message">first message</h4>
+                                    {% for i in mes_ticket %}
+
+                                        {% if i.sender == 'S_SP' %}
+                                        <div class="message-st">
+                                            <h6>Support {{i.create_date|date:'d.m.Y H:i'}}</h6>
+                                            <p>{{i.text}}</p>
+                                            {% if i.file %}
+                                                {% if i.file_ind == 'jpg' or i.file_ind == 'png' %}
+                                                        <a href="{{i.file.url}}" class="fancylight popup-btn"
+                                                           data-lightbox="photos">
+                                                        <div class="myborder myborder-hover"
+                                                        style="display: inline-block;width:auto">
+                                                        <i class="fas fa-paperclip me-3"></i>{{i.file_name}}
+                                                        </div></a>
+                                                {% else %}
+                                                    <a href="{{i.file.url}}" target="_blank">
+                                                        <div class="myborder myborder-hover"
+                                                        style="display: inline-block;width:auto">
+                                                        <i class="fas fa-paperclip me-3"></i>{{i.file_name}}
+                                                        </div>
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </div>
+                                        {% endif %}
+                                        {% if i.sender == 'S_CS' %}
+                                            <div class="message-cs text-end">
+                                                <h6>{{i.customer.first_name}} {{i.create_date|date:'d.m.Y H:i'}}</h6>
+                                            <p>{{i.text}}</p>
+                                            {% if i.file %}
+                                                {% if i.file_ind == 'jpg' or i.file_ind == 'png' %}
+                                                        <a href="{{i.file.url}}" class="fancylight popup-btn"
+                                                           data-lightbox="photos">
+                                                        <div class="myborder myborder-hover"
+                                                        style="display: inline-block;width:auto">
+                                                        <i class="fas fa-paperclip me-3"></i>{{i.file_name}}
+                                                        </div></a>
+                                                {% else %}
+                                                    <a href="{{i.file.url}}" target="_blank">
+                                                        <div class="myborder myborder-hover"
+                                                        style="display: inline-block;width:auto">
+                                                        <i class="fas fa-paperclip me-3"></i>{{i.file_name}}
+                                                        </div>
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                            </div>
+                                        {% endif %}
+
+                                    {% endfor %}
+                                    <h4 id="last-message">Last</h4>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {% if not solved %}
+
+            <div class="row equal">
+
+                <div class="col-12 col-md-6 mb-mobile">
+                    <div class="shadow p-1 mb-5 bg-white rounded-10">
+                        <div class="card-body">
+
+                            <form id="add_form" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-12">
+
+                                        {{form.text|first}}
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+
+                                        <div id="form_file" class="col-12">
+                                            {{form.file}}
+                                        </div>
+                                        {% if big_file %}
+                                        <ul class="errorlist">
+                                            <li>You cannot upload file more than 5Mb</li>
+                                        </ul>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+
+                            </form>
+
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <button form="add_form" type="submit" class="btn btn-lg btn-primary"
+                                            style="width:100%;">Send message</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            {% endif %}
+        </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        const el = document.getElementById('last-message');
+        el.scrollIntoView();
+        $('#id_text').val("");
+        $('#form_file').text('');
+        $('#form_file').append('<input id="id_file" class="form-control" type="file" name="file">');
+    });
+
+</script>
+{% endblock %}

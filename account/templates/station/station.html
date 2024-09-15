@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+{% load static %}
+{% url 'index_page' as url_index %}
+{% url 'register_customer_page' as url_reg_customer %}
+{% url 'register_station_page' as url_reg_station %}
+{% url 'login_page' as url_login %}
+{% url 'logout' as url_logout %}
+{% url 'password_reset' as url_password_reset %}
+{% url 'customer_home_page' as url_customer_home %}
+{% url 'orders_all_page' as url_all_orders %}
+{% url 'dashboard_station_page' as url_dashboard_station_page %}
+{% url 'offers_st_page' as url_offers_st_page %}
+{% url 'messages_st_page' as url_messages_st_page %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="We are AutoDaddy">
+        <meta name="author" content="AutoDaddy">
+
+        <title>{% block page_title %}Personal account AutoDaddy{% endblock %}</title>
+
+		<link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+
+
+        <!-- Awesome Font Icons CSS -->
+        <link rel="stylesheet" href="{% static 'css/awesome/all.min.css' %}">
+        <!-- reference your installed Font Awesome Free package's files here -->
+        <link href="{% static 'css/awesome/all.min.css' %}" rel="stylesheet" type="text/css">
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+        <!-- animate CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/animate.min.css' %}">
+		<!-- Venobox CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/venobox/venobox.css' %}">
+		<!-- OWL-Carousel CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/owl.carousel.css' %}">
+        <!-- Slick Nav CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/slicknav.min.css' %}">
+
+        <link rel="stylesheet" href="{% static 'magnific/magnific-popup.css' %}">
+        <!-- Safari Mac Aplle CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/reset.css' %}">
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/main.css' %}">
+		<!-- Responsive CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/responsive.css' %}">
+
+{% block style %}
+{% endblock style %}
+    </head>
+    <body>
+
+        <div id='preloader' >
+            <div class='loader' >
+                <img src="{% static 'img/loading.gif' %}" width="80" alt="">
+            </div>
+        </div><!-- Preloader -->
+
+        <header id="header" class="header-section">
+            <div class="container">
+                <nav class="navbar ">
+                    <a href="{{index}}" class="navbar-brand"><img src="{% static 'img/logo.svg' %}" alt="AutoDaddy"></a>
+                    <div class="d-flex menu-wrap align-items-center">
+                       <div id="mainmenu" class="mainmenu">
+                           <ul class="nav">
+
+                               <li><a href="{{url_index}}">Home</a></li>
+                               {% if user.is_authenticated %}
+
+                                    {% if current_station %}
+                                   <li><a href="{% url 'dashboard_station_page' %}">
+                                       My profile</a></li>
+                                    <li><a href="{{url_logout}}">log out</a></li>
+                                    {% endif %}
+
+                               {% else %}
+                                <li><a href="{{url_login}}">Sign in</a></li>
+                               {% endif %}
+                            </ul>
+                       </div>
+
+                    </div>
+                </nav>
+            </div>
+		</header> <!--.header-section -->
+
+        <div id="navigation" class="main-page navigation">
+            <ul>
+
+                {% if user.is_authenticated %}
+                    {% if current_station %}
+                <li>
+                    <a href="{{url_dashboard_station_page}}"
+                   class="nav-point{% if url_dashboard_station_page == request.path %} active{% endif %}">
+                        <span class="icon">
+                            <i class="fas fa-desktop fa-lg"></i>
+                        </span>
+                        <span class="title">{{w_dashboard}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url_all_orders}}"
+                   class="nav-point{% if url_all_orders == request.path %} active{% endif %}
+                   {% if order_url %} active{% endif %}">
+                        <span class="icon">
+                            <i class="fas fa-tools fa-lg"></i>
+                        </span>
+                        <span class="title">{{w_orders}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url_offers_st_page}}"
+                   class="nav-point{% if offers_url %} active{% endif %}">
+                        <span class="icon">
+                            <i class="fas fa-briefcase fa-lg"></i>
+                        </span>
+                        <span class="title">{{w_offers}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url_messages_st_page}}" class="nav-point position-relative
+                            {% if url_messages_st_page == request.path %} active{% endif %}
+                            {% if messages_url %} active{% endif %}">
+
+                        <span class="icon">
+                            <i class="fas fa-envelope fa-lg"></i>
+                            <span id="number_mes" class="position-absolute top-35 start-100 translate-middle badge
+                            rounded-pill bg-danger"  {% if not st_number_m %}style="visibility:hidden"{% endif %}>
+                                {{st_number_m}}
+                            </span>
+                        </span>
+                        <span class="title">
+                            {{w_messages}}
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'detail_station_page' current_station.slug %}"
+                   class="nav-point{% if station_url %} active{% endif %}">
+                        <span class="icon">
+                            <i class="fas fa-cogs fa-lg"></i>
+                        </span>
+                        <span class="title">My profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'station_sp_page' %}" class="nav-point{% if support_url %} active{% endif %}">
+                        <span class="icon">
+                            <i class="fas fa-headset fa-lg"></i>
+                        </span>
+                        <span class="title">{{w_support}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url_logout}}" class="nav-point">
+                        <span class="icon">
+                            <i class="fas fa-sign-out-alt fa-lg"></i>
+                        </span>
+                        <span class="title">{{w_log_out}}</span>
+                    </a>
+                </li>
+                    {% endif %}
+                    {% else %}
+                <li>
+                    <a href="#" class="nav-point">
+                        <span class="icon">
+                            <i class="fas fa-headset fa-lg"></i>
+                        </span>
+                        <span class="title">{{w_support}}</span>
+                    </a>
+                </li>
+                    {% endif %}
+
+            </ul>
+            <div class="toggle"></div>
+
+        </div>
+
+<div class="container-fluid">
+    <div class="row">
+
+        {% block content %}
+
+
+        <div class="col-10 offset-13 main-page" id="main">
+            {% if messages %}
+            <div id="top_message" class="alert alert-success">
+              {% for m in messages %}
+              {{m}}
+              {% endfor %}
+            </div>
+            {% endif %}
+<!--            <h1 class="h1-account">Personal account of the station</h1>-->
+            <div class="row equal">
+                <div class="col-12 col-xl-10 mb-mobile">
+                    <div class="shadow p-1 mb-5 bg-white rounded-10">
+
+                        <div class="card-body">
+                            <div class="card-header">
+                                <strong style="font-size:18px;">{{get_station.name_stat}}</strong>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                        <label>The contact person</label>
+                                        <div class="myborder">
+                                            {% if get_station.titul %}
+                                            {{ get_station.titul }}
+                                            {% endif %}
+                                            {{ get_station.first_name }} {{ get_station.last_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                        <label>Email</label>
+                                        <div class="myborder">
+                                            {{ get_station.email }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                        <label>Station name</label>
+                                        <div class="myborder">
+                                            {{ get_station.name_stat }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                        <label>Company name</label>
+                                        <div class="myborder">
+                                            {{ get_station.name_comp }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <div class="row">
+                                <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                    <label>Your district</label>
+                                    <div class="myborder">
+                                        {% if get_station.district == '1' %}
+                                        Wien
+                                       {% endif %}
+                                       {% if get_station.district == '2' %}
+                                        Niederösterreich
+                                       {% endif %}
+                                       {% if get_station.district == '3' %}
+                                        Burgenland
+                                       {% endif %}
+                                       {% if get_station.district == '4' %}
+                                        Steiermark
+                                       {% endif %}
+                                       {% if get_station.district == '5' %}
+                                        Oberösterreich
+                                       {% endif %}
+                                       {% if get_station.district == '6' %}
+                                        Salzburg
+                                       {% endif %}
+                                       {% if get_station.district == '7' %}
+                                        Kärnten
+                                       {% endif %}
+                                       {% if get_station.district == '8' %}
+                                        Nordtirol
+                                       {% endif %}
+                                       {% if get_station.district == '9' %}
+                                        Osttirol
+                                       {% endif %}
+                                       {% if get_station.district == '10' %}
+                                        Vorarlberg
+                                       {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                    <label>City</label>
+                                    <div class="myborder">
+                                        {{ get_station.city }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                    <label>Street</label>
+                                    <div class="myborder">
+                                        {{ get_station.street }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                    <label>Building</label>
+                                    <div class="myborder">
+                                        {{ get_station.house }}
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                    <label>Address code</label>
+                                    <div class="myborder">
+                                        {{ get_station.address_code }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                    <label>Phone</label>
+                                    <div class="myborder">
+                                        {{ get_station.phone }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                    <label>Website</label>
+                                    <div class="myborder">
+                                        {{ get_station.web_site }}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-md-6 col-12 mt-2">
+                                    <label>UID</label>
+                                    <div class="myborder">
+                                        {{ get_station.uid }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-3 col-md-4 col-12 mt-2">
+                                    <label>ATU file</label>
+                                    {% if get_station.file_atu %}
+                                    <a href="{{ get_station.file_atu.url }}" target="_blank">
+                                        <div class="myborder myborder-hover">
+                                        Click here for looking
+                                        </div>
+                                    </a>
+                                    {% else %}
+                                    <div class="myborder myborder-hover">
+                                        The file is not exist
+                                        </div>
+                                    {% endif %}
+                                </div>
+<!--                                <label class="mt-2">Paid options</label>-->
+                                <div class="col-xl-3 col-lg-3 col-md-2 col-6 mt-2">
+                                    <label> Cash </label>
+                                    <div class="myborder">
+                                        {% if get_station.cash %}
+                                        Yes
+                                        {% else %}
+                                        No
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-md-3 col-6 mt-2">
+                                    <label>Card</label>
+                                    <div class="myborder">
+                                        {% if get_station.card %}
+                                        Yes
+                                        {% else %}
+                                        No
+                                        {% endif %}
+                                    </div>
+                                 </div>
+                                 <div class="col-xl-3 col-lg-3 col-md-3 col-12 mt-2">
+                                     <label>Bank transfer</label>
+                                     <div class="myborder">
+                                        {% if get_station.transfer %}
+                                        Yes
+                                        {% else %}
+                                        No
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <a href="{% url 'update_station_page' get_station.slug %}"
+                                       class="btn btn-secondary mb-3" style="width:100%;">
+                                    Edit your data</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{% url 'password_reset' %}"class="btn btn-danger"
+                                       style="width:100%;">Change password</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        {% endblock %}
+    </div>
+
+</div>
+
+<div class="alert alert-success message-corner"  role="alert" style="visibility:hidden">
+    <div class="row">
+        <div class="col-10">
+            <div id="message-from-name"></div>
+        </div>
+        <div class="col-2 text-end">
+            <button id="close-message" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <a href="#">
+        <div id="message-text"></div>
+    </a>
+</div>
+
+    <footer class="footer_section">
+			<div class="container">
+                <div class="row">
+                    <div class="col-12 xs-padding text-center">
+                        <div class="copyright">&copy; Raketaweb</div>
+                    </div>
+<!--                    <div class="col-md-6 xs-padding">-->
+<!--                        <ul class="footer_social">-->
+<!--                            <li><a href="#">Orders</a></li>-->
+<!--                            <li><a href="#">Terms</a></li>-->
+<!--                            <li><a href="#">Report Problem</a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+                </div>
+			</div>
+		</footer><!-- /.footer_section -->
+
+        <!-- jQuery Lib -->
+        <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+        <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <!--Slicknav-->
+		<script src="{% static 'js/theme/vendor/jquery.slicknav.min.js' %}"></script>
+        <!-- YTPlayer JS -->
+	    <script src="{% static 'js/theme/vendor/jquery.mb.YTPlayer.min.js' %}"></script>
+        <!-- Imagesloaded JS -->
+        <script src="{% static 'js/theme/vendor/imagesloaded.pkgd.min.js' %}"></script>
+		<!-- OWL-Carousel JS -->
+		<script src="{% static 'js/theme/vendor/owl.carousel.min.js' %}"></script>
+        <!-- Smooth Scroll JS -->
+		<script src="{% static 'js/theme/vendor/smooth-scroll.min.js' %}"></script>
+        <!-- venobox JS -->
+		<script src="{% static 'js/theme/vendor/venobox.min.js' %}"></script>
+        <!-- Wow JS -->
+	    <script src="{% static 'js/theme/vendor/wow.min.js' %}"></script>
+        <!-- ajaxchimp JS -->
+        <script src="{% static 'js/theme/vendor/jquery.ajaxchimp.min.js' %}"></script>
+        <!-- isotope JS -->
+		<script src="{% static 'js/theme/vendor/jquery.isotope.v3.0.2.js' %}"></script>
+        <!-- Awwesome JS -->
+        <script src="{% static 'js/awesome/all.min.js' %}"></script>
+		<!-- Main JS -->
+		<script src="{% static 'js/theme/main.js' %}"></script>
+
+<script>
+
+let navigation = document.querySelector('.navigation');
+let toggle = document.querySelector('.toggle');
+toggle.onclick = function() {
+    navigation.classList.toggle('active')
+};
+
+setInterval(function() {
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    var user_id = {{request.user.id}};
+    var review_data = {
+            current_user: user_id,
+        }
+    $.ajax({
+        type: 'POST',
+        url: {% url 'check_message_st_ajax' %},
+        headers: {'X-CSRFToken': csrftoken},
+        data: review_data,
+        dataType: 'json',
+        success: function (response) {
+            const new_messages = JSON.parse(response.mes_list);
+            var number_mes = new_messages.length;
+            $('#number_mes').text(new_messages.length);
+            // console.log(new_messages.length)
+            if (new_messages.length != 0) {
+                $('#number_mes').css("visibility", "visible");
+            } else {
+                $('#number_mes').css("visibility", "hidden");
+            };
+            for (const message of new_messages.values()) {
+                var message_pk = message;
+                // console.log(message_pk.pk);
+                // console.log(message_pk.fields.showed);
+                if (message_pk.fields.showed == false) {
+                // console.log('fungujet');
+                // console.log(message_pk.fields.text);
+                // console.log(message_pk.fields.customer_name);
+                $('.message-corner').css("visibility", "visible");
+                $('.message-corner').addClass("active");
+                $('#message-from-name').text(message_pk.fields.customer_name);
+                $('#message-text').text(message_pk.fields.text);
+                var url_message_detail = 'https://autodaddy.at/messages-chat/' + message_pk.pk + '/'
+                $('#message-text').parent('a').attr('href', url_message_detail);
+                $('#message-from-name').addClass("active");
+                $('#message-text').addClass("active");
+                $('#close-message').addClass("active");
+                };
+            };
+        },
+        error: function (response) {
+            console.log(response)
+            console.log('error')
+        },
+    })
+}, 8000); //20 seconds
+
+$('#close-message').click(function() {
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    var user_id = {{request.user.id}};
+    var review_data = {
+            current_user: user_id,
+        }
+    $.ajax({
+        type: 'POST',
+        url: {% url 'check_message_st_showed_ajax' %},
+        headers: {'X-CSRFToken': csrftoken},
+        data: review_data,
+        dataType: 'json',
+        success: function (response) {
+            const new_messages = JSON.parse(response.mes_show_list);
+            $('.message-corner').css("visibility", "hidden");
+        },
+        error: function (response) {
+            console.log(response)
+            console.log('error')
+        },
+    })
+},);
+
+// hide the top message
+$(document).ready(function() {
+  $("#top_message").delay(9000).slideUp(300);
+});
+
+</script>
+
+{% block scripts %}
+
+{% endblock %}
+
+    </body>
+</html>

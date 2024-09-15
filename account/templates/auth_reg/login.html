@@ -1,0 +1,84 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+  {% block content %}
+
+
+    <div class="page">
+      <div class="position-relative d-flex flex-row flex-fill page-wrapper">
+        <div
+          class="position-relative d-flex flex-column flex-fill page-content"
+          style="min-width:0"
+        >
+          <div
+            class="d-flex flex-column justify-content-center align-items-center px-3 bg-white min-vh-100"
+          >
+
+              <!-- так выводиться сообщения из класса CustomSuccessMessageMixin-->
+    {% if messages %}
+    <div class="alert alert-success">
+      {% for m in messages %}
+      {{m}}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+            <div class="w-100 auth-card">
+              <div class="shadow p-1 mb-5 bg-white rounded-10">
+                <div class="card-body">
+                  <div class="text-center mb-3">
+                    <!-- <svg width="24" height="24" class="d-block m-auto">
+                      <img src="{% static 'img/logo_blue.svg' %}" alt="AutoDaddy">
+                    </svg> -->
+                    <p class="mb-0 mt-3">please log in</p>
+                    <p class="text-muted">to continue using your account</p>
+                  </div>
+                  <form class="" id="add_form" method="post">
+                      {% csrf_token %}
+                    <div class="mb-4 form-group">
+                      <label for="id_username" class="">Your email</label>
+                        {{form.username}}
+                        {% if form.errors %}
+                        <p>Your username and password didn't match. Please try again.</p>
+                        {% endif %}
+                    </div>
+                    <div class="mb-4 form-group">
+                      <label for="id_password" class="d-flex">
+                        <span class="mr-auto">Password</span>
+                      </label>
+                        {{form.password}}
+                    </div>
+                      <div class="row">
+                          <div class="col-12">
+                              <button style="width:100%" form="add_form" type="submit"
+                                      class="mb-3 btn btn-primary btn-lg btn-block">
+                                  Sign in
+                                </button>
+                          </div>
+                          <div class="col-12">
+                              <a style="width:100%" href="{{url_password_reset}}"
+                                 class="mb-3 btn btn-secondary btn-lg btn-block">
+                                  Forgot password?
+                                </a>
+                          </div>
+                      </div>
+
+                    <div class="text-center">
+                      <div class="text-muted text-small text-center">
+                        <span>Don't have an account yet?</span><br>
+                        <a href="{% url 'register_customer_page' %}">Create one now!</a>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock %}
+
+

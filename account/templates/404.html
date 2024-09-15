@@ -1,0 +1,31 @@
+
+{% load static %}
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="404">
+
+    <link rel="icon" href="favicon.ico">
+    <title>Page 404 </title>
+    <!-- Bootstrap CDN CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <!-- Custom CSS -->
+    <link href="{% static 'css/404.css' %}" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Preloader -->
+    <section id="wrapper" class="container-fluid">
+        <div class="error-box">
+            <div class="error-body text-center">
+                <h1 class="text-danger">404</h1>
+                <h3>Page Not Found !</h3>
+                <p class="text-muted m-t-30 m-b-30">Stránku, ktorú hľadáte sa nepodarilo nájsť</p>
+                <a href="/" class="btn btn-danger btn-rounded m-b-40">Vráťte sa na našu základňu</a> </div>
+            <footer class="footer text-center">2021 <a href="/">autodaddy</a></footer>
+        </div>
+    </section>
+</body>
+</html>

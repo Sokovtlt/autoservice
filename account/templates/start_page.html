@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="We are AutoDaddy">
+        <meta name="author" content="AutoDaddy">
+
+        <title>{% block page_title %}AutoService{% endblock %}</title>
+
+		<link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+        <!-- reference your installed Font Awesome Free package's files here -->
+        <link href="{% static 'css/awesome/all.min.css' %}" rel="stylesheet" type="text/css">
+        <!-- Elegant Font Icons CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/elegant-font-icons.css' %}">
+        <!-- Elegant Line Icons CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/elegant-line-icons.css' %}">
+        <!-- Themify Icon CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/themify-icons.css' %}">
+        <!-- Barber Icons CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/barber-icons.css' %}">
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+        <!-- animate CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/animate.min.css' %}">
+		<!-- Venobox CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/venobox/venobox.css' %}">
+        <!-- Nice Select CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/nice-select.css' %}">
+		<!-- OWL-Carousel CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/owl.carousel.css' %}">
+        <!-- Slick Nav CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/slicknav.min.css' %}">
+        <!-- Safari Mac Aplle CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/reset.css' %}">
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/main.css' %}">
+
+		<!-- Responsive CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/responsive.css' %}">
+
+
+    </head>
+    <body>
+
+        <div id='preloader' >
+            <div class='loader' >
+                <img src="{% static 'img/loading.gif' %}" width="80" alt="">
+            </div>
+        </div><!-- Preloader -->
+
+        <header id="header" class="header-section">
+            <div class="container">
+                <nav class="navbar ">
+                    <a href="{% url 'start_page' %}" class="navbar-brand">
+                        <h2>AutoService</h2>
+                    </a>
+                    <div class="d-flex menu-wrap align-items-center">
+                       <div id="mainmenu" class="mainmenu">
+                           <ul class="nav">
+
+                               <li><a href="{% url 'start_page' %}">{{w_home}}</a>
+                               </li>
+                               {% if user.is_authenticated %}
+                                    {% if owner %}
+                                    <li><a href="#">{{w_owner}}</a>
+                                    {% else %}
+
+                                        {% if current_customer %}
+                                       <li><a href="{% url 'detail_customer_page' current_customer.slug %}">
+                                           {{w_my_profile}}</a></li>
+                                        <li><a href="{{url_logout}}">log out</a></li>
+                                        {% endif %}
+                                        {% if current_station %}
+                                           <li><a href="{% url 'dashboard_station_page' %}">
+                                           {{w_my_profile}}</a></li>
+                                        <li><a href="{{url_logout}}">{{w_log_out}}</a></li>
+                                        {% endif %}
+
+                                    {% endif %}
+                               {% else %}
+                                <li><a href="{{url_login}}">{{w_sign_in}}</a>
+
+                                </li>
+                                <li>
+                                    <a href="{% url 'register_customer_page' %}">{{w_register_as_customer}}</a>
+                                </li>
+                               {% endif %}
+                               <li>
+                                   {% if support %}
+                                    <a href="{% url 'dashboard_support_page' %}" class="text-center header-btn-m w-100">
+                                    <i class="fas fa-headset fa-lg me-2"></i>{{support}}</a>
+                                    {% else %}
+                                    <a href="{% url 'register_station_page' %}" class="text-center header-btn-m w-100">
+                                        {{w_become_partner}}</a>
+                                    {% endif %}
+                               </li>
+                            </ul>
+                       </div>
+
+                    </div>
+                </nav>
+            </div>
+		</header> <!--.header-section -->
+
+
+
+
+{% block content %}
+
+
+<section class="service_banner" style="background-image: url({% static 'img/slide-1.jpg' %});">
+            <div class="container">
+                <div class="slider_content-static">
+                    <h1>Let us free<br>you from worries</h1>
+                    <p>We will help you find a reliable contractor for any task</p>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'add_order_page' %}" class="default_btn">{{w_make_order}}</a>
+                    {% else %}
+                    <a href="{{url_reg_customer}}" class="default_btn">{{w_make_order}}</a>
+                    {% endif %}
+                </div>
+                <div class="slider_krug">
+                    <img src="{% static 'img/krug.png' %}" alt="krug-images" class="krug" data-wow-delay="200ms">
+                </div>
+            </div>
+</section>
+
+
+        <section id="about" class="about_section bd-bottom padding">
+            <div class="container">
+               <div class="row">
+                   <div class="col-md-6">
+                        <div class="about_content align-center">
+                            <h2 class="wow fadeInUp" data-wow-delay="200ms">More than 100 services</h2>
+
+
+                        </div>
+                       <div id="services-list" class="row">
+                           <div class="col-md-6">
+                            <ul class="wow fadeInUp" data-wow-delay="600ms">
+                                <li><i class="fas fa-check-circle me-2"></i>Batteries and electrical</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Refueling the air conditioner</li>
+                                <li><i class="fas fa-check-circle me-2"></i>wheel alignment</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Pad replacement</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Pads Rovels</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Diagnostics</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Oil change</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Suspension repair</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Tire fitting</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Engine repair</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Gearbox repair</li>
+                            </ul>
+                           </div>
+                           <div class="col-md-6">
+                            <ul class="wow fadeInUp" data-wow-delay="600ms">
+                                <li><i class="fas fa-check-circle me-2"></i>Batteries and electrical</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Refueling the air conditioner</li>
+                                <li><i class="fas fa-check-circle me-2"></i>wheel alignment</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Pad replacement</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Pads Rovels</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Diagnostics</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Oil change</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Suspension repair</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Tire fitting</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Engine repair</li>
+                                <li><i class="fas fa-check-circle me-2"></i>Gearbox repair</li>
+                            </ul>
+                           </div>
+                       </div>
+                        <div class="about_content align-center mt-4">
+                            <h3 class="wow fadeInUp" data-wow-delay="100ms">and much more</h3>
+                        </div>
+                       <div class="about_content align-center mt-4">
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'add_order_page' %}" class="default_btn">{{w_make_order}}</a>
+                            {% else %}
+                            <a href="{{url_reg_customer}}" class="default_btn">{{w_make_order}}</a>
+                            {% endif %}
+                       </div>
+                    </div>
+                    <div class="col-md-6 d-none d-md-block">
+                        <div class="about_img">
+                            <img src="{% static 'img/about-1.jpg' %}" alt="idea-images" class="about_img_1 wow
+                            fadeInLeft" data-wow-delay="200ms">
+                            <img src="{% static 'img/about-2.jpg' %}" alt="idea-images" class="about_img_2 wow
+                            fadeInRight" data-wow-delay="400ms">
+                            <img src="{% static 'img/about-3.jpg' %}" alt="idea-images" class="about_img_3 wow
+                            fadeInLeft" data-wow-delay="600ms">
+                        </div>
+                    </div>
+               </div>
+            </div>
+        </section> <!--/.about_section -->
+
+        <section id="how-works" class="service_section bg-grey padding">
+            <div class="container">
+                <div class="section_heading text-center mb-40 wow fadeInUp" data-wow-delay="300ms">
+                   <h2>How it works?</h2>
+                    <h3>4 steps</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="200ms">
+                        <div class="service_box">
+                            <i class="fas fa-car fa-3x mb-3"></i>
+                            <h3>1. Add your car</h3>
+                            <p>When you are made your account you have to add your car</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="300ms">
+                        <div class="service_box">
+                            <i class="fas fa-tools fa-3x mb-3"></i>
+                            <h3>2. Make an order</h3>
+                            <p>for repair your car and describe it defect</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="400ms">
+                        <div class="service_box">
+                            <i class="fas fa-clock fa-3x mb-3"></i>
+                            <h3>3. Waiting</h3>
+                            <p>Just wait an offer from service stations</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 sm-padding wow fadeInUp" data-wow-delay="500ms">
+                        <div class="service_box">
+                            <i class="fas fa-check-circle fa-3x mb-3"></i>
+                            <h3>4. Choose</h3>
+                            <p>If you got many offers just choose the offer which you like</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!--/. service_section -->
+
+
+
+        <section id="team" class="team_section padding">
+			<div class="container">
+				<div class="section_heading text-center mb-40 wow fadeInUp" data-wow-delay="300ms">
+<!--                   <h3>Welcome</h3>-->
+                   <h2>What they say about us</h2>
+
+                </div>
+
+			</div>
+        </section><!-- /.team_section -->
+
+        <section id="reviews" class="testimonial_section padding">
+			<div class="container">
+				<ul id="testimonial_carousel" class="testimonial_items owl-carousel">
+                    <li class="testimonial_item">
+                        <p>"It is a long established fact that a reader will be <br> distracted by the readable content of a page when looking at its layout."</p>
+                        <h4 class="text-white">Anita Tran, IT Solutions.</h4>
+                    </li>
+                    <li class="testimonial_item">
+                        <p>"It is a long established fact that a reader will be<br> distracted by the readable content of a page when looking at its layout."</p>
+                        <h4 class="text-white">Leslie Williamson, Developer.</h4>
+                    </li>
+                    <li class="testimonial_item">
+                        <p>"It is a long established fact that a reader will be<br> distracted by the readable content of a page when looking at its layout."</p>
+                        <h4 class="text-white">Fred Moody, Network Software.</h4>
+                    </li>
+                </ul>
+			</div>
+		</section><!-- /. testimonial_section -->
+
+
+
+        <section class="blog-section bd-bottom padding">
+            <div class="container">
+                <div class="section-heading text-center mb-40 wow fadeInUp" data-wow-delay="300ms">
+                   <h3>From Blog</h3>
+                   <h2>Read some tips about maintaining <br> your car and/or your bike!</h2>
+                </div><!--/.section-heading-->
+                <div class="row blog-wrap">
+                    <div class="col-lg-4 col-md-6 sm-padding wow fadeInUp" data-wow-delay="200ms">
+                        <div class="blog-item">
+                            <div class="blog-thumb">
+                                <img src="{% static 'img/post-1.jpg' %}" alt="post">
+                                <span class="category"><a href="#">Category</a></span>
+                            </div>
+                            <div class="blog-content">
+                                <h3><a href="#">Lorem Ipsum is simply dummy text.</a></h3>
+                                <p>Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                                <a href="#" class="read-more">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 sm-padding wow fadeInUp" data-wow-delay="300ms">
+                        <div class="blog-item">
+                            <div class="blog-thumb">
+                                <img src="{% static 'img/post-2.jpg' %}" alt="post">
+                                <span class="category"><a href="#">Category</a></span>
+                            </div>
+                            <div class="blog-content">
+                               <h3><a href="#">Lorem Ipsum is simply dummy text.</a></h3>
+                                <p>Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                                <a href="#" class="read-more">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 sm-padding wow fadeInUp" data-wow-delay="400ms">
+                        <div class="blog-item">
+                            <div class="blog-thumb">
+                                <img src="{% static 'img/post-3.jpg' %}" alt="post">
+                                <span class="category"><a href="#">Category</a></span>
+                            </div>
+                            <div class="blog-content">
+                                <h3><a href="#">Lorem Ipsum is simply dummy text.</a></h3>
+                                <p>Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                                <a href="#" class="read-more">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!--/.blog-section-->
+
+        <div class="sponsor_section bg-grey padding">
+            <div class="container">
+                <ul id="sponsor_carousel" class="sponsor_items owl-carousel">
+                    <li class="sponsor_item">
+                        <img src="{% static 'img/sponsor-1.png' %}" alt="sponsor-image">
+                    </li>
+                    <li class="sponsor_item">
+                        <img src="{% static 'img/sponsor-2.png' %}" alt="sponsor-image">
+                    </li>
+                    <li class="sponsor_item">
+                        <img src="{% static 'img/sponsor-3.png' %}" alt="sponsor-image">
+                    </li>
+                    <li class="sponsor_item">
+                        <img src="{% static 'img/sponsor-4.png' %}" alt="sponsor-image">
+                    </li>
+                    <li class="sponsor_item">
+                        <img src="{% static 'img/sponsor-5.png' %}" alt="sponsor-image">
+                    </li>
+                    <li class="sponsor_item">
+                        <img src="{% static 'img/sponsor-6.png' %}" alt="sponsor-image">
+                    </li>
+                    <li class="sponsor_item">
+                        <img src="{% static 'img/sponsor-7.png' %}" alt="sponsor-image">
+                    </li>
+                    <li class="sponsor_item">
+                        <img src="{% static 'img/sponsor-8.png' %}" alt="sponsor-image">
+                    </li>
+                </ul>
+            </div>
+        </div><!-- ./sponsor_section -->
+
+		<section class="widget_section padding">
+			<div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 sm-padding">
+                        <div class="footer_widget">
+                            <h2>AutoService</h2>
+                            <p>Our company is... There are many variations of passages of Lorem Ipsum available.</p>
+                            <ul class="widget_social">
+                                <li><a href="#"><i class="social_facebook"></i></a></li>
+                                <li><a href="#"><i class="social_twitter"></i></a></li>
+                                <li><a href="#"><i class="social_googleplus"></i></a></li>
+                                <li><a href="#"><i class="social_instagram"></i></a></li>
+                                <li><a href="#"><i class="social_linkedin"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 sm-padding">
+                        <div class="footer_widget">
+                            <h3>Headquaters</h3>
+                            <p>Wien, Austria, 83 654</p>
+                            <p>mail@autoservice <br>(+43) 456 7893 21010</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 sm-padding">
+                        <div class="footer_widget">
+                            <h3>Opening Hours</h3>
+                            <ul class="opening_time">
+                                <li>Monday - Friday 11:30am - 2:008pm</li>
+                                <li>Saturday – Monday: 9am – 8pm</li>
+                                <li>Monday - Friday 5:30am - 11:008pm</li>
+                                <li>Saturday - Sunday 4:30am - 1:00pm</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12 sm-padding">
+                        <div class="footer_widget">
+                            <h3>Subscribe to our contents</h3>
+                            <div class="subscribe_form">
+                                <form action="#" class="subscribe_form">
+                                    <input type="email" name="email" id="subs-email" class="form_input" placeholder="Email Address...">
+                                    <button type="submit" class="submit">SUBSCRIBE</button>
+                                    <div class="clearfix"></div>
+                                    <div id="subscribe-result">
+                                        <p class="subscription-success"></p>
+                                        <p class="subscription-error"></p>
+                                    </div>
+                                </form>
+                            </div><!-- Subscribe Form -->
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</section><!-- /.widget_section -->
+
+
+
+
+{% endblock %}
+
+
+    <footer class="footer_section">
+			<div class="container">
+                <div class="row">
+                    <div class="col-12 xs-padding text-center">
+                        <div class="copyright">&copy; AutoService</div>
+                    </div>
+                </div>
+			</div>
+		</footer><!-- /.footer_section -->
+
+
+		<!-- <a data-scroll href="#header" id="scroll-to-top"><i class="arrow_up"></i></a> -->
+
+		<!-- jQuery Lib -->
+		<script src="{% static 'js/theme/vendor/jquery-1.12.4.min.js' %}"></script>
+		<!-- Bootstrap JS -->
+		<script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <!-- Imagesloaded JS -->
+        <script src="{% static 'js/theme/vendor/imagesloaded.pkgd.min.js' %}"></script>
+		<!-- OWL-Carousel JS -->
+		<script src="{% static 'js/theme/vendor/owl.carousel.min.js' %}"></script>
+		<!-- isotope JS -->
+		<script src="{% static 'js/theme/vendor/jquery.isotope.v3.0.2.js' %}"></script>
+		<!-- Smooth Scroll JS -->
+		<script src="{% static 'js/theme/vendor/smooth-scroll.min.js' %}"></script>
+		<!-- venobox JS -->
+		<script src="{% static 'js/theme/vendor/venobox.min.js' %}"></script>
+        <!-- ajaxchimp JS -->
+        <script src="{% static 'js/theme/vendor/jquery.ajaxchimp.min.js' %}"></script>
+        <!--Slicknav-->
+		<script src="{% static 'js/theme/vendor/jquery.slicknav.min.js' %}"></script>
+        <!-- YTPlayer JS -->
+	    <script src="{% static 'js/theme/vendor/jquery.mb.YTPlayer.min.js' %}"></script>
+	    <!-- Wow JS -->
+	    <script src="{% static 'js/theme/vendor/wow.min.js' %}"></script>
+		<!-- Contact JS -->
+		<script src="{% static 'js/theme/contact.js' %}"></script>
+		<!-- Appointment JS -->
+		<script src="{% static 'js/theme/appointment.js' %}"></script>
+        <!-- Awesome JS -->
+        <script src="{% static 'js/awesome/all.min.js' %}"></script>
+		<!-- Main JS -->
+		<script src="{% static 'js/theme/main.js' %}"></script>
+
+{% block scripts %}
+{% endblock %}
+
+    <!--    calendar   -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="{% static 'magnific/jquery.magnific-popup.min.js' %}"></script>
+
+<script type="text/javascript">
+$(function() {
+
+  $('input[name="datefilter"]').daterangepicker({
+      autoUpdateInput: false,
+      locale: {
+          cancelLabel: 'Clear'
+      }
+  });
+
+  $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+  });
+
+  $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('');
+  });
+
+});
+</script>
+<!--calendar end-->
+
+
+    </body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+{% load static %}
+{% url 'index_page' as url_index %}
+{% url 'register_customer_page' as url_reg_customer %}
+{% url 'register_station_page' as url_reg_station %}
+{% url 'login_page' as url_login %}
+{% url 'logout' as url_logout %}
+{% url 'password_reset' as url_password_reset %}
+{% url 'customer_home_page' as url_customer_home %}
+{% url 'orders_page' as url_orders %}
+{% url 'orders_all_page' as url_all_orders %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="We are AutoDaddy">
+        <meta name="author" content="AutoDaddy">
+
+        <title>{% block page_title %}Personal account AutoDaddy{% endblock %}</title>
+
+		<link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+
+
+        <!-- Awesome Font Icons CSS -->
+        <link rel="stylesheet" href="{% static 'css/awesome/all.min.css' %}">
+        <!-- reference your installed Font Awesome Free package's files here -->
+        <link href="{% static 'css/awesome/all.min.css' %}" rel="stylesheet" type="text/css">
+		<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <!-- animate CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/animate.min.css' %}">
+		<!-- Venobox CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/venobox/venobox.css' %}">
+		<!-- OWL-Carousel CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/owl.carousel.css' %}">
+        <!-- Slick Nav CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/slicknav.min.css' %}">
+
+        <link rel="stylesheet" href="{% static 'magnific/magnific-popup.css' %}">
+		<!-- Main CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/main.css' %}">
+		<!-- Responsive CSS -->
+        <link rel="stylesheet" href="{% static 'css/theme/responsive.css' %}">
+
+{% block style %}
+{% endblock style %}
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id='preloader' >
+            <div class='loader' >
+                <img src="{% static 'img/loading.gif' %}" width="80" alt="">
+            </div>
+        </div><!-- Preloader -->
+
+        <header id="header" class="header-section">
+            <div class="container">
+                <nav class="navbar ">
+                    <a href="{{index}}" class="navbar-brand"><img src="{% static 'img/logo.svg' %}" alt="AutoDaddy"></a>
+                    <div class="d-flex menu-wrap align-items-center">
+                       <div id="mainmenu" class="mainmenu">
+                           <ul class="nav">
+
+                               <li><a href="{{url_index}}">Home</a></li>
+                                <li><a href="about-us.html">About</a>
+                                    <ul>
+                                       <li><a href="about-us.html">About Us</a></li>
+                                       <li><a href="about-company.html">About Company</a></li>
+                                    </ul>
+                                </li>
+
+                                <li><a href="#">Blog</a>
+                                    <ul>
+                                       <li><a href="blog-grid.html">Blog Grid</a></li>
+                                       <li><a href="blog-classic.html">Blog Classic</a></li>
+                                       <li><a href="blog-single.html">Blog Single</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="contact.html">Contact</a></li>
+                               {% if user.is_authenticated %}
+                                <li><a href="#">Account</a>
+                                    <ul>
+                                        {% if current_customer %}
+                                       <li><a href="{% url 'detail_customer_page' current_customer.slug %}">
+                                           {{current_customer.username}}</a></li>
+                                        <li><a href="{{url_logout}}">log out</a></li>
+                                        {% endif %}
+                                        {% if current_station %}
+<!--                                       <li><a href="{% url 'detail_station_page' current_station.slug %}">-->
+                                       <li><a href="{% url 'dashboard_station_page' %}">
+                                           {{current_station.username}}</a></li>
+                                        <li><a href="{{url_logout}}">log out</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </li>
+                               {% else %}
+                                <li><a href="{{url_login}}">Sign in</a></li>
+                               {% endif %}
+                            </ul>
+                       </div>
+                       <div class="header-btn">
+<!--                           menu-btn-->
+                           <a href="{{url_reg_station}}" class="btn btn-info">Become a partner</a>
+                       </div>
+
+                    </div>
+                </nav>
+            </div>
+		</header> <!--.header-section -->
+
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-3 col-md-2 px-1 bg-dark position-fixed" id="sticky-sidebar">
+            <div class="nav flex-column flex-nowrap vh-100 overflow-auto text-white p-2 sidebar-style">
+                {% if user.is_authenticated %}
+                <a href="{% url 'dashboard_station_page' %}" class="nav-link"><i class="fas fa-desktop mr-2"></i>
+                Dashboard</a>
+                <a href=" class="nav-link">
+                   <i class="fas fa-user mr-2"></i>Me</a>
+                <a href="{{url_all_orders}}" class="nav-link"><i class="fas fa-tools mr-2"></i>Orders</a>
+                <a href="{% url 'offers_st_page' %}" class="nav-link"><i class="fas fa-briefcase mr-2"></i>My offers</a>
+                <a href="{% url 'messages_st_page' %}" class="nav-link"><i class="fas fa-envelope mr-2"></i>Messages
+                    {% if number_m %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{number_m}}
+                    </span>
+                    {% endif %}
+                </a>
+                <a href="#" class="nav-link"><i class="fas fa-cogs mr-2"></i>Settings</a>
+                <a href="{{url_logout}}" class="nav-link"><i class="fas fa-sign-out-alt mr-2"></i>log out</a>
+                {% else %}
+                <a href="#" class="nav-link"><i class="fas fa-headset mr-2"></i>Support</a>
+                {% endif %}
+            </div>
+        </div>
+
+
+{% block content %}
+checking
+{% endblock %}
+
+    </div>
+</div>
+
+<footer class="footer_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 xs-padding text-center">
+                <div class="copyright">&copy; Raketaweb</div>
+            </div>
+<!--                    <div class="col-md-6 xs-padding">-->
+<!--                        <ul class="footer_social">-->
+<!--                            <li><a href="#">Orders</a></li>-->
+<!--                            <li><a href="#">Terms</a></li>-->
+<!--                            <li><a href="#">Report Problem</a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+        </div>
+    </div>
+</footer><!-- /.footer_section -->
+
+		<a data-scroll href="#header" id="scroll-to-top"><i class="arrow_up"></i></a>
+
+        <!-- jQuery Lib -->
+        <script src="{% static 'js/jquery-3.6.0.js' %}"></script>
+        <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <!--Slicknav-->
+		<script src="{% static 'js/theme/vendor/jquery.slicknav.min.js' %}"></script>
+        <!-- YTPlayer JS -->
+	    <script src="{% static 'js/theme/vendor/jquery.mb.YTPlayer.min.js' %}"></script>
+        <!-- Imagesloaded JS -->
+        <script src="{% static 'js/theme/vendor/imagesloaded.pkgd.min.js' %}"></script>
+		<!-- OWL-Carousel JS -->
+		<script src="{% static 'js/theme/vendor/owl.carousel.min.js' %}"></script>
+        <!-- Smooth Scroll JS -->
+		<script src="{% static 'js/theme/vendor/smooth-scroll.min.js' %}"></script>
+        <!-- venobox JS -->
+		<script src="{% static 'js/theme/vendor/venobox.min.js' %}"></script>
+        <!-- Wow JS -->
+	    <script src="{% static 'js/theme/vendor/wow.min.js' %}"></script>
+        <!-- ajaxchimp JS -->
+        <script src="{% static 'js/theme/vendor/jquery.ajaxchimp.min.js' %}"></script>
+        <!-- isotope JS -->
+		<script src="{% static 'js/theme/vendor/jquery.isotope.v3.0.2.js' %}"></script>
+        <!-- Awwesome JS -->
+        <script src="{% static 'js/awesome/all.min.js' %}"></script>
+		<!-- Main JS -->
+		<script src="{% static 'js/theme/main.js' %}"></script>
+
+
+    {% block scripts %}
+    {% endblock%}
+
+    </body>
+</html>

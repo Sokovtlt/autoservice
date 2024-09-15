@@ -1,0 +1,103 @@
+{% extends 'customer/customer.html' %}
+{% block page_title %}My prifile | AutoDaddy{% endblock %}
+{% block content %}
+
+<div class="col-10 col-md-9 offset-13 main-page" id="main">
+
+    <div class="row mb-2">
+        <div class="col-12">
+            <a type="button" class="btn-back" href="javascript:history.back()">
+                <i class="fas fa-caret-left me-1"></i>Back</a>
+        </div>
+    </div>
+
+    <div class="row equal">
+        <div class="col-12 col-xl-6 mb-mobile">
+            <div class="shadow p-1 mb-3 bg-white rounded-10">
+
+                <div class="card-body">
+                    <div class="card-header">
+                    <b style="font-size:18px;">Edit my profile</b>
+                    </div>
+
+                    <form id="add_form" method="post">
+                            {% csrf_token %}
+                        <div class="form-group">
+                            <div class="row mt-2">
+                                <div class="col-xl-2">
+                                {{ form.titul.label_tag }}
+                                {{ form.titul }}
+                                {% if form.titul.errors %}
+                                {{ form.titul.errors }}
+                                {% endif %}
+                                </div>
+                                <div class="col-xl-4">
+                                {{ form.first_name.label_tag }}
+                                {{ form.first_name }}
+                                {% if form.first_name.errors %}
+                                {{ form.first_name.errors }}
+                                {% endif %}
+                                </div>
+                                <div class="col-xl-6">
+                                {{ form.last_name.label_tag }}
+                                {{ form.last_name }}
+                                {% if form.last_name.errors %}
+                                {{ form.last_name.errors }}
+                                {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                {{ form.city.label_tag }}
+                                {{ form.city }}
+                                {% if form.city.errors %}
+                                {{ form.city.errors }}
+                                {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                {{ form.street.label_tag }}
+                                {{ form.street }}
+                                {% if form.street.errors %}
+                                {{ form.street.errors }}
+                                {% endif %}
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                {{ form.phone.label_tag }}
+                                {{ form.phone }}
+                                {% if form.phone.errors %}
+                                {{ form.phone.errors }}
+                                {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                {{ form.address_code.label_tag }}
+                                {{ form.address_code }}
+                                {% if form.address_code.errors %}
+                                {{ form.address_code.errors }}
+                                {% endif %}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <button form="add_form" type="submit"
+                                        class="btn btn-secondary" style="width:100%;">
+                                        Edit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+                  {% endblock %}

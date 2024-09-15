@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <br>
+
+        <h2>Thank you {{ offer.order.author.first_name }}</h2>
+        <h3>Your Order ID: {{ offer.order.id}}</h3>
+
+
+        <h3>Order Details:</h3>
+
+        {{ offer.order.order_car.name }} </br>
+        {% if offer.order.diagnostics %}
+        Diagnostics</br>
+        {% endif %}
+        {% if offer.order.inspection %}
+        Inspection</br>
+        {% endif %}
+        {% if offer.order.engine %}
+        Engine</br>
+        {% endif %}
+        {% if offer.order.chassis %}
+        Chassis</br>
+        {% endif %}
+        {% if offer.order.carcase %}
+        Carcase</br>
+        {% endif %}
+        {% if offer.order.electrical %}
+        Electrical</br>
+        {% endif %}
+        {% if offer.order.other %}
+        Other</br>
+        {% endif %}
+        {{ offer.order.text }} </br></br>
+        {{ offer.price }} Euro</br>
+        {{ offer.text }}
+
+
+        <h2>Please rate this station job</h2>
+        <a href="{{ protocol}}://{{ domain }}{% url 'detail_offer_customer_page' offer.slug %}">Click here</a>
+
+<!--        <table>-->
+
+<!--            <thead>-->
+<!--                <tr>-->
+<!--                    <th>Product</th>-->
+<!--                    <th>Quantity</th>-->
+<!--                    <th>Price</th>-->
+<!--                    <th>Total Price</th>-->
+<!--                </tr>-->
+<!--            </thead>-->
+
+<!--            <tbody>-->
+<!--                {% for item in order.order_items %}-->
+<!--&lt;!&ndash;                    <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>{{ item.name }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>{{ item.quantity }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>{{ item.price }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td>{{ item.total_price }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </tr>&ndash;&gt;-->
+<!--                {% endfor %}-->
+<!--            </tbody>-->
+<!--        </table>-->
+    </body>
+</html>

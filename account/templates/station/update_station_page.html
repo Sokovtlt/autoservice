@@ -1,0 +1,1316 @@
+{% extends 'station/station.html' %}
+{% load static %}
+{% block page_title %}My prifile | AutoDaddy{% endblock %}
+{% block content %}
+
+<div class="col-10 offset-13 main-page" id="main">
+
+    <div class="row mb-3">
+        <div class="col-12">
+            <a type="button" class="btn-back" href="javascript:history.back()">
+                <i class="fas fa-caret-left me-1"></i>Back</a>
+        </div>
+    </div>
+
+    <div class="row equal">
+        <div class="col-12 col-xl-10 mb-mobile">
+
+            {% if form.errors %}
+            <div id="top_message" class="alert alert-danger">
+                {{form.errors}}
+            </div>
+            {% endif %}
+
+            <div class="shadow p-1 mb-5 bg-white rounded-10">
+
+                <div class="card-body">
+                    <div class="card-header">
+                    <b style="font-size:18px;">Edit my profile</b>
+                    </div>
+
+                    <form id="add_form" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                        <div class="form-group">
+                     <p>The contact person</p>
+                            <div class="row">
+                                <div class="col-xl-2 col-md-2 col-sm-3 col-5 mt-2">
+                                 {{ form.titul.label_tag }}
+                                 {{ form.titul }}
+                                    {% if form.titul.errors %}
+                                    {{ form.titul.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-4 col-md-5 col-sm-4 col-7 mt-2">
+                                 {{ form.first_name.label_tag }}
+                                 {{ form.first_name }}
+                                    {% if form.first_name.errors %}
+                                    {{ form.first_name.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-6 col-md-5 col-sm-5 mt-2">
+                                 {{ form.last_name.label_tag }}
+                                 {{ form.last_name }}
+                                    {% if form.last_name.errors %}
+                                    {{ form.last_name.errors }}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xl-3 col-sm-6 mt-2">
+                                 {{ form.name_stat.label_tag }}
+                                 {{ form.name_stat }}
+                                    {% if form.name_stat.errors %}
+                                    {{ form.name_stat.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mt-2">
+                                 {{ form.name_comp.label_tag }}
+                                 {{ form.name_comp }}
+                                    {% if form.name_comp.errors %}
+                                    {{ form.name_comp.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mt-2">
+                                    <label>Your district (click for changing)</label>
+                                    <a type="button" data-bs-toggle="modal"
+                                      data-bs-target="#exampleModal" style="width:100%">
+                                    <div id="choose-district" class="myborder myborder-hover">
+                                        {% if get_station.district == '1' %}
+                                        Wien
+                                       {% endif %}
+                                       {% if get_station.district == '2' %}
+                                        Niederösterreich
+                                       {% endif %}
+                                       {% if get_station.district == '3' %}
+                                        Burgenland
+                                       {% endif %}
+                                       {% if get_station.district == '4' %}
+                                        Steiermark
+                                       {% endif %}
+                                       {% if get_station.district == '5' %}
+                                        Oberösterreich
+                                       {% endif %}
+                                       {% if get_station.district == '6' %}
+                                        Salzburg
+                                       {% endif %}
+                                       {% if get_station.district == '7' %}
+                                        Kärnten
+                                       {% endif %}
+                                       {% if get_station.district == '8' %}
+                                        Nordtirol
+                                       {% endif %}
+                                       {% if get_station.district == '9' %}
+                                        Osttirol
+                                       {% endif %}
+                                       {% if get_station.district == '10' %}
+                                        Vorarlberg
+                                       {% endif %}
+                                    </div>
+                                        </a>
+                                </div>
+                                <div class="col-xl-3 col-sm-6 mt-2">
+                                 {{ form.city.label_tag }}
+                                 {{ form.city }}
+                                    {% if form.city.errors %}
+                                    {{ form.city.errors }}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+    <!-- Modal map start-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content modal-map">
+                <div id="modal-header" class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Choose your district</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="map-block">
+                        <img src="{% static 'img/map/lower_austria.png' %}" alt="lower_austria"
+                             class="img-map img-fluid" id="lower_austria">
+                        <img src="{% static 'img/map/upper_austria.png' %}" alt="upper_austria"
+                             class="img-map img-fluid" id="upper_austria">
+                        <img src="{% static 'img/map/burgenland.png' %}" alt="burgenland" class="img-map img-fluid"
+                        id="burgenland">
+                        <img src="{% static 'img/map/carinthia.png' %}" alt="carinthia" class="img-map img-fluid"
+                        id="carinthia">
+                        <img src="{% static 'img/map/east_tyrol.png' %}" alt="east_tyrol" class="img-map img-fluid"
+                        id="east_tyrol">
+                        <img src="{% static 'img/map/north_tyrol.png' %}" alt="north_tyrol" class="img-map img-fluid"
+                        id="north_tyrol">
+                        <img src="{% static 'img/map/salzburg.png' %}" alt="salzburg" class="img-map img-fluid"
+                        id="salzburg">
+                        <img src="{% static 'img/map/styria.png' %}" alt="styria" class="img-map img-fluid"
+                        id="styria">
+                        <img src="{% static 'img/map/vorarlberg.png' %}" alt="vorarlberg" class="img-map img-fluid"
+                        id="vorarlberg">
+                        <img id="map-vienna" src="{% static 'img/map/vienna.png' %}" alt="map-vienna"
+                             class="img-map img-fluid">
+                        {{ form.district }}
+                        {% if form.district.errors %}
+                                    {{ form.district.errors }}
+                                    {% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer text-end">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal map end-->
+
+
+                            <div class="row">
+                                <div class="col-xl-3 col-lg-5 col-sm-6 mt-2">
+                                 {{ form.street.label_tag }}
+                                 {{ form.street }}
+                                    {% if form.street.errors %}
+                                    {{ form.street.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-3 col-sm-6 mt-2">
+                                 {{ form.house.label_tag }}
+                                 {{ form.house }}
+                                    {% if form.house.errors %}
+                                    {{ form.house.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-sm-6 mt-2">
+                                 {{ form.address_code.label_tag }}
+                                 {{ form.address_code }}
+                                    {% if form.address_code.errors %}
+                                    {{ form.address_code.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-sm-6 mt-2">
+                                 {{ form.phone.label_tag }}
+                                 {{ form.phone }}
+                                    {% if form.phone.errors %}
+
+                                    {{ form.phone.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-sm-6 mt-2 uid-website-margin">
+                                 {{ form.web_site.label_tag }}
+                                 {{ form.web_site }}
+                                    {% if form.web_site.errors %}
+                                    {{ form.web_site.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-sm-6 mt-2 uid-website-margin">
+                                 {{ form.uid.label_tag }}
+                                 {{ form.uid }}
+                                    {% if form.uid.errors %}
+                                    {{ form.uid.errors }}
+                                    {% endif %}
+                                </div>
+                                <div class="col-xl-3 col-sm-6 col-12 mt-2">
+                                    <label>current ATU file</label>
+                                    {% if get_station.file_atu %}
+                                    <a href="{{ get_station.file_atu.url }}" target="_blank">
+                                        <div class="myborder myborder-hover">
+                                        Click here for looking
+                                        </div>
+                                    </a>
+                                    {% else %}
+                                    <div class="myborder myborder-hover">
+                                        The file is not exist
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div id="file-atu" class="col-xl-3 col-sm-6 mt-2">
+                                 {{ form.file_atu.label_tag }}
+                                 {{ form.file_atu }}
+                                    {% if form.file_atu.errors %}
+                                    {{ form.file_atu.errors }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <label class="mt-2">Paid options</label>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3 ms-2 mt-2">
+                                    {{ form.cash }} <label for="id_cash" class="ms-2"> Cash </label>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 ms-2 mt-2">
+                                       {{ form.card }} <label for="id_card" class="ms-2">Card</label>
+                                 </div>
+                                 <div class="col-lg-5 col-md-5 col-sm-5 ms-2 mt-2">
+                                       {{ form.transfer }} <label for="id_transfer" class="ms-2">Bank transfer</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-end">
+                                <button form="add_form" type="submit" class="btn btn-secondary">Edit</button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+    $(document).ready(function(){
+        $("#id_password").attr('type', 'password');
+        $("#password_2").keyup(function(){
+             if ($("#id_password").val() != $("#password_2").val()) {
+                 $("#msg").html("Password do not match").css("color","red");
+             }else{
+                 $("#msg").html("Password matched").css("color","green");
+             }
+        });
+    });
+
+    $(document).ready(function(){
+        // $("#file-atu>a").text('Current file');
+        // $("#file-atu>a").attr('target', '_blank');
+        // <input type="file" name="file_atu" required="True" placeholder="required" class="form-control" id="id_file_atu">
+        $("#file-atu").empty();
+        $("#file-atu").append('<label for="id_file_atu">Upload a new ATU</label><input type="file" name="file_atu" class="form-control" id="id_file_atu">');
+    });
+
+
+
+$('.button_add').click(function() {
+    $('#choose-district').addClass('red-district');
+    $('#choose-district').text('Your must choose your district');
+});
+
+$(document).ready(function(){
+    $('#id_district_0').parent('label').addClass('map-block-label label-vienna')
+    $('#id_district_1').parent('label').addClass('map-block-label lower_austria')
+    $('#id_district_2').parent('label').addClass('map-block-label burgenland')
+    $('#id_district_3').parent('label').addClass('map-block-label styria')
+    $('#id_district_4').parent('label').addClass('map-block-label upper_austria')
+    $('#id_district_5').parent('label').addClass('map-block-label salzburg')
+    $('#id_district_6').parent('label').addClass('map-block-label carinthia')
+    $('#id_district_7').parent('label').addClass('map-block-label north_tyrol')
+    $('#id_district_8').parent('label').addClass('map-block-label east_tyrol')
+    $('#id_district_9').parent('label').addClass('map-block-label vorarlberg')
+    $('#id_district').removeClass('map-block-input')
+});
+
+$(document).ready(function(){
+	$('#id_district_0').attr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').attr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').attr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').attr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').attr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').attr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').attr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').attr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').attr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').attr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').attr('onmouseover', 'changeItem_2()')
+	$('.burgenland').attr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').attr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').attr('onmouseout', 'rechangeItem_3()')
+	$('.styria').attr('onmouseover', 'changeItem_3()')
+	$('.styria').attr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').attr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').attr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').attr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').attr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').attr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').attr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').attr('onmouseover', 'changeItem_5()')
+	$('.salzburg').attr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').attr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').attr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').attr('onmouseover', 'changeItem_6()')
+	$('.carinthia').attr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').attr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').attr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').attr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').attr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').attr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').attr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').attr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').attr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').attr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').attr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').attr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').attr('onmouseout', 'rechangeItem_9()')
+});
+
+function changeItem_0() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Wien</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+}
+
+function rechangeItem_0() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '1';
+}
+
+function changeItem_1() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Niederösterreich</h2>');
+    document.getElementById('map-vienna').style.opacity = '0';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+}
+
+function rechangeItem_1() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '1';
+}
+
+function changeItem_2() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Burgenland</h2>');
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+}
+
+function rechangeItem_2() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '1';
+}
+
+function changeItem_3() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Steiermark</h2>');
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+}
+
+function rechangeItem_3() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '1';
+}
+
+function changeItem_4() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Oberösterreich</h2>');
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+}
+
+function rechangeItem_4() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '1';
+}
+
+function changeItem_5() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Salzburg</h2>');
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+}
+
+function rechangeItem_5() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '1';
+}
+
+function changeItem_6() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Kärnten</h2>');
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+}
+
+function rechangeItem_6() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '1';
+}
+
+function changeItem_7() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Nordtirol</h2>');
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+}
+
+function rechangeItem_7() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '1';
+}
+
+function changeItem_8() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Osttirol</h2>');
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+}
+
+function rechangeItem_8() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '1';
+}
+
+function changeItem_9() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is Vorarlberg</h2>');
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+}
+
+function rechangeItem_9() {
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Choose your district</h2>');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '1';
+}
+
+$('#id_district_0').click(function() {
+    $('#id_district_0').parent('label').addClass('active')
+    $('#id_district_1').parent('label').removeClass('active')
+    $('#id_district_2').parent('label').removeClass('active')
+    $('#id_district_3').parent('label').removeClass('active')
+    $('#id_district_4').parent('label').removeClass('active')
+    $('#id_district_5').parent('label').removeClass('active')
+    $('#id_district_6').parent('label').removeClass('active')
+    $('#id_district_7').parent('label').removeClass('active')
+    $('#id_district_8').parent('label').removeClass('active')
+    $('#id_district_9').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Wien</h2>');
+    $('#choose-district').text('Wien');
+    document.getElementById('map-vienna').style.opacity = '1';
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+$('#id_district_1').click(function() {
+    $('#id_district_1').parent('label').addClass('active')
+    $('#id_district_0').parent('label').removeClass('active')
+    $('#id_district_2').parent('label').removeClass('active')
+    $('#id_district_3').parent('label').removeClass('active')
+    $('#id_district_4').parent('label').removeClass('active')
+    $('#id_district_5').parent('label').removeClass('active')
+    $('#id_district_6').parent('label').removeClass('active')
+    $('#id_district_7').parent('label').removeClass('active')
+    $('#id_district_8').parent('label').removeClass('active')
+    $('#id_district_9').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Niederösterreich</h2>');
+    $('#choose-district').text('Niederösterreich');
+    document.getElementById('lower_austria').style.opacity = '1';
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+$('#id_district_2').click(function() {
+    $('#id_district_2').parent('label').addClass('active')
+    $('#id_district_1').parent('label').removeClass('active')
+    $('#id_district_0').parent('label').removeClass('active')
+    $('#id_district_3').parent('label').removeClass('active')
+    $('#id_district_4').parent('label').removeClass('active')
+    $('#id_district_5').parent('label').removeClass('active')
+    $('#id_district_6').parent('label').removeClass('active')
+    $('#id_district_7').parent('label').removeClass('active')
+    $('#id_district_8').parent('label').removeClass('active')
+    $('#id_district_9').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Burgenland</h2>');
+    $('#choose-district').text('Burgenland');
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '1';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+$('#id_district_3').click(function() {
+    $('#id_district_3').parent('label').addClass('active')
+    $('#id_district_1').parent('label').removeClass('active')
+    $('#id_district_2').parent('label').removeClass('active')
+    $('#id_district_0').parent('label').removeClass('active')
+    $('#id_district_4').parent('label').removeClass('active')
+    $('#id_district_5').parent('label').removeClass('active')
+    $('#id_district_6').parent('label').removeClass('active')
+    $('#id_district_7').parent('label').removeClass('active')
+    $('#id_district_8').parent('label').removeClass('active')
+    $('#id_district_9').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Steiermark</h2>');
+    $('#choose-district').text('Steiermark');
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '1';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+$('#id_district_4').click(function() {
+    $('#id_district_4').parent('label').addClass('active')
+    $('#id_district_1').parent('label').removeClass('active')
+    $('#id_district_2').parent('label').removeClass('active')
+    $('#id_district_3').parent('label').removeClass('active')
+    $('#id_district_0').parent('label').removeClass('active')
+    $('#id_district_5').parent('label').removeClass('active')
+    $('#id_district_6').parent('label').removeClass('active')
+    $('#id_district_7').parent('label').removeClass('active')
+    $('#id_district_8').parent('label').removeClass('active')
+    $('#id_district_9').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Oberösterreich</h2>');
+    $('#choose-district').text('Oberösterreich');
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '1';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+$('#id_district_5').click(function() {
+    $('#id_district_5').parent('label').addClass('active')
+    $('#id_district_1').parent('label').removeClass('active')
+    $('#id_district_2').parent('label').removeClass('active')
+    $('#id_district_3').parent('label').removeClass('active')
+    $('#id_district_4').parent('label').removeClass('active')
+    $('#id_district_0').parent('label').removeClass('active')
+    $('#id_district_6').parent('label').removeClass('active')
+    $('#id_district_7').parent('label').removeClass('active')
+    $('#id_district_8').parent('label').removeClass('active')
+    $('#id_district_9').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Salzburg</h2>');
+    $('#choose-district').text('Salzburg');
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '1';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+$('#id_district_6').click(function() {
+    $('#id_district_6').parent('label').addClass('active')
+    $('#id_district_1').parent('label').removeClass('active')
+    $('#id_district_2').parent('label').removeClass('active')
+    $('#id_district_3').parent('label').removeClass('active')
+    $('#id_district_4').parent('label').removeClass('active')
+    $('#id_district_5').parent('label').removeClass('active')
+    $('#id_district_0').parent('label').removeClass('active')
+    $('#id_district_7').parent('label').removeClass('active')
+    $('#id_district_8').parent('label').removeClass('active')
+    $('#id_district_9').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Kärnten</h2>');
+    $('#choose-district').text('Kärnten');
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '1';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+$('#id_district_7').click(function() {
+    $('#id_district_7').parent('label').addClass('active')
+    $('#id_district_1').parent('label').removeClass('active')
+    $('#id_district_2').parent('label').removeClass('active')
+    $('#id_district_3').parent('label').removeClass('active')
+    $('#id_district_4').parent('label').removeClass('active')
+    $('#id_district_5').parent('label').removeClass('active')
+    $('#id_district_6').parent('label').removeClass('active')
+    $('#id_district_0').parent('label').removeClass('active')
+    $('#id_district_8').parent('label').removeClass('active')
+    $('#id_district_9').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Nordtirol</h2>');
+    $('#choose-district').text('Nordtirol');
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '1';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+$('#id_district_8').click(function() {
+    $('#id_district_8').parent('label').addClass('active')
+    $('#id_district_1').parent('label').removeClass('active')
+    $('#id_district_2').parent('label').removeClass('active')
+    $('#id_district_3').parent('label').removeClass('active')
+    $('#id_district_4').parent('label').removeClass('active')
+    $('#id_district_5').parent('label').removeClass('active')
+    $('#id_district_6').parent('label').removeClass('active')
+    $('#id_district_7').parent('label').removeClass('active')
+    $('#id_district_0').parent('label').removeClass('active')
+    $('#id_district_9').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Osttirol</h2>');
+    $('#choose-district').text('Osttirol');
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '1';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '0.3';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+$('#id_district_9').click(function() {
+    $('#id_district_9').parent('label').addClass('active')
+    $('#id_district_1').parent('label').removeClass('active')
+    $('#id_district_2').parent('label').removeClass('active')
+    $('#id_district_3').parent('label').removeClass('active')
+    $('#id_district_4').parent('label').removeClass('active')
+    $('#id_district_5').parent('label').removeClass('active')
+    $('#id_district_6').parent('label').removeClass('active')
+    $('#id_district_7').parent('label').removeClass('active')
+    $('#id_district_8').parent('label').removeClass('active')
+    $('#id_district_0').parent('label').removeClass('active')
+    $('#choose-district').removeClass('red-district');
+    $('#add_button').removeClass('button_add');
+    $('#modal-header').empty();
+    $('#modal-header').append('<h2 class="modal-title" id="exampleModalLabel">Your district is  Vorarlberg</h2>');
+    $('#choose-district').text('Vorarlberg');
+    document.getElementById('lower_austria').style.opacity = '0.3';
+    document.getElementById('map-vienna').style.opacity = '0.2';
+    document.getElementById('upper_austria').style.opacity = '0.3';
+    document.getElementById('burgenland').style.opacity = '0.3';
+    document.getElementById('carinthia').style.opacity = '0.3';
+    document.getElementById('east_tyrol').style.opacity = '0.3';
+    document.getElementById('north_tyrol').style.opacity = '0.3';
+    document.getElementById('salzburg').style.opacity = '0.3';
+    document.getElementById('styria').style.opacity = '0.3';
+    document.getElementById('vorarlberg').style.opacity = '1';
+	$('#id_district_0').removeAttr('onmouseover', 'changeItem_0()')
+	$('#id_district_0').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('.label-vienna').removeAttr('onmouseover', 'changeItem_0()')
+	$('.label-vienna').removeAttr('onmouseout', 'rechangeItem_0()')
+	$('#id_district_1').removeAttr('onmouseover', 'changeItem_1()')
+	$('#id_district_1').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('.lower_austria').removeAttr('onmouseover', 'changeItem_1()')
+	$('.lower_austria').removeAttr('onmouseout', 'rechangeItem_1()')
+	$('#id_district_2').removeAttr('onmouseover', 'changeItem_2()')
+	$('#id_district_2').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('.burgenland').removeAttr('onmouseover', 'changeItem_2()')
+	$('.burgenland').removeAttr('onmouseout', 'rechangeItem_2()')
+	$('#id_district_3').removeAttr('onmouseover', 'changeItem_3()')
+	$('#id_district_3').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('.styria').removeAttr('onmouseover', 'changeItem_3()')
+	$('.styria').removeAttr('onmouseout', 'rechangeItem_3()')
+	$('#id_district_4').removeAttr('onmouseover', 'changeItem_4()')
+	$('#id_district_4').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('.upper_austria').removeAttr('onmouseover', 'changeItem_4()')
+	$('.upper_austria').removeAttr('onmouseout', 'rechangeItem_4()')
+	$('#id_district_5').removeAttr('onmouseover', 'changeItem_5()')
+	$('#id_district_5').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('.salzburg').removeAttr('onmouseover', 'changeItem_5()')
+	$('.salzburg').removeAttr('onmouseout', 'rechangeItem_5()')
+	$('#id_district_6').removeAttr('onmouseover', 'changeItem_6()')
+	$('#id_district_6').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('.carinthia').removeAttr('onmouseover', 'changeItem_6()')
+	$('.carinthia').removeAttr('onmouseout', 'rechangeItem_6()')
+	$('#id_district_7').removeAttr('onmouseover', 'changeItem_7()')
+	$('#id_district_7').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseover', 'changeItem_7()')
+	$('.north_tyrol').removeAttr('onmouseout', 'rechangeItem_7()')
+	$('#id_district_8').removeAttr('onmouseover', 'changeItem_8()')
+	$('#id_district_8').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseover', 'changeItem_8()')
+	$('.east_tyrol').removeAttr('onmouseout', 'rechangeItem_8()')
+	$('#id_district_9').removeAttr('onmouseover', 'changeItem_9()')
+	$('#id_district_9').removeAttr('onmouseout', 'rechangeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseover', 'changeItem_9()')
+	$('.vorarlberg').removeAttr('onmouseout', 'rechangeItem_9()')
+});
+
+</script>
+
+{% endblock %}

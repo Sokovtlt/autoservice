@@ -1,0 +1,388 @@
+{% extends 'station/station.html' %}
+{% block page_title %}Dashboard | AutoDaddy{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<div id="list" class="col-10 offset-13 main-page" id="main">
+
+    <h1 class="h1-account">Hi {{current_station.first_name}}!</h1>
+    <div class="row equal">
+        {% if list_cust %}
+        <div class="col-12 col-xl-6 mb-mobile">
+            <div class="shadow p-1 mb-5 bg-white rounded-10">
+                <div class="card-body">
+                    <a href="{% url 'messages_st_page' %}">
+                    <div class="card-header point-click">
+                        <strong style="font-size:18px;"><i class="fas fa-envelope me-2"></i>Messages</strong>
+                    </div>
+                    </a>
+                    {% for i in list_cust %}
+                    <a href="{% url 'detail_messages_st_page' i.last_message.id %}">
+                        <div class="form-group">
+                           <div class="myborder point-click">
+                               {{ i.customer.first_name }} {{ i.customer.last_name }}
+                               <span>|</span>
+                               {% if i.last_message.sender == 'S_ST' %}
+                               You:
+                               {% endif %}
+                               {{i.last_message.text|truncatechars:34}}
+                           </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="col-12 col-xl-6 mb-mobile">
+            <div class="shadow p-1 mb-5 bg-white rounded-10">
+                <div class="card-body">
+                    <a href="{% url 'offers_st_page' %}">
+                    <div class="card-header point-click">
+                        <strong style="font-size:18px;"><i class="fas fa-briefcase me-2"></i>
+                            Chosen offers which you have to confirm</strong>
+                    </div>
+                    </a>
+                    {% if offer_chosen %}
+                    {% for i in list_offer_ch %}
+                    <a href="{% url 'confirm_offer_page' i.slug %}">
+                        <div class="form-group">
+                           <div id="order"  name="{{i.id}}" class="myborder point-click">
+                               #{{ i.id }}
+                               <span>| Order #</span>
+                               {{i.order.id}}
+                               <span>|</span>
+                               {{ i.order.order_car.car_brand }}
+                               {% if i.order.diagnostics %}
+                               <span>|</span>
+                                Diagnostics
+                                {% endif %}
+                               {% if i.order.inspection %}
+                               <span>|</span>
+                               Inspection
+                               {% endif %}
+                               {% if i.order.engine %}
+                               <span>|</span>
+                               Engine
+                               {% endif %}
+                               {% if i.order.chassis %}
+                               <span>|</span>
+                               Chassis
+                               {% endif %}
+                               {% if i.order.carcase %}
+                               <span>|</span>
+                               Carcase
+                               {% endif %}
+                               {% if i.order.electrical %}
+                               <span>|</span>
+                               Electrical
+                               {% endif %}
+                               {% if i.order.other %}
+                               <span>|</span>
+                               Other
+                               {% endif %}
+                               <span>|</span>
+                               {{i.termin_1_d}}<span>-</span>{{i.termin_1_t|time:"H:i"}}
+                               <span>|</span>
+                               {{i.price}}<span> €</span>
+                           </div>
+
+                        </div>
+                    </a>
+                    {% endfor %}
+                    <a href="{% url 'offers_st_page' %}">
+                        <div class="form-group">
+                           <div class="myborder point-click">
+                               Other your offers
+                           </div>
+                        </div>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-6 mb-mobile">
+            <div class="shadow p-1 mb-5 bg-white rounded-10">
+                <div class="card-body">
+                    {% if confirm_ok %}
+                    <a href="{% url 'offers_st_page' %}">
+                    <div class="card-header point-click">
+                        <strong style="font-size:18px;"><i class="fas fa-briefcase me-2"></i>Upcoming events</strong>
+                    </div>
+                    </a>
+
+                    {% for i in confirm_offers %}
+                    <a href="{% url 'detail_offer_page' i.slug %}">
+                        <div class="form-group">
+                           <div id="order"  name="{{i.id}}" class="myborder point-click">
+                               #{{ i.id }}
+                               <span>| Order #</span>
+                               {{i.order.id}}
+                               <span>|</span>
+                               {{ i.order.order_car.car_brand }}
+                               {% if i.order.diagnostics %}
+                               <span>|</span>
+                                Diagnostics
+                                {% endif %}
+                               {% if i.order.inspection %}
+                               <span>|</span>
+                               Inspection
+                               {% endif %}
+                               {% if i.order.engine %}
+                               <span>|</span>
+                               Engine
+                               {% endif %}
+                               {% if i.order.chassis %}
+                               <span>|</span>
+                               Chassis
+                               {% endif %}
+                               {% if i.order.carcase %}
+                               <span>|</span>
+                               Carcase
+                               {% endif %}
+                               {% if i.order.electrical %}
+                               <span>|</span>
+                               Electrical
+                               {% endif %}
+                               {% if i.order.other %}
+                               <span>|</span>
+                               Other
+                               {% endif %}
+                               <span>|</span>
+                               {{i.termin_1_d}}<span>-</span>{{i.termin_1_t|time:"H:i"}}
+                               <span>|</span>
+                               {{i.price}}<span> €</span>
+                           </div>
+
+                        </div>
+                    </a>
+                    {% endfor %}
+                    {% else %}
+                    <a href="{% url 'offers_st_page' %}">
+                    <div class="card-header point-click">
+                        <strong style="font-size:18px;"><i class="fas fa-briefcase me-2"></i>Your offers</strong>
+                    </div>
+                    </a>
+
+                    {% for i in list_offers %}
+                    <a href="{% url 'detail_offer_page' i.slug %}">
+                        <div class="form-group">
+                           <div id="order"  name="{{i.id}}" class="myborder point-click">
+                               #{{ i.id }}
+                               <span>| Order #</span>
+                               {{i.order.id}}
+                               <span>|</span>
+                               {{ i.order.order_car.car_brand }}
+                               {% if i.order.diagnostics %}
+                               <span>|</span>
+                                Diagnostics
+                                {% endif %}
+                               {% if i.order.inspection %}
+                               <span>|</span>
+                               Inspection
+                               {% endif %}
+                               {% if i.order.engine %}
+                               <span>|</span>
+                               Engine
+                               {% endif %}
+                               {% if i.order.chassis %}
+                               <span>|</span>
+                               Chassis
+                               {% endif %}
+                               {% if i.order.carcase %}
+                               <span>|</span>
+                               Carcase
+                               {% endif %}
+                               {% if i.order.electrical %}
+                               <span>|</span>
+                               Electrical
+                               {% endif %}
+                               {% if i.order.other %}
+                               <span>|</span>
+                               Other
+                               {% endif %}
+                               <span>|</span>
+                               {{i.termin_1_d}}<span>-</span>{{i.termin_1_t|time:"H:i"}}
+                               <span>|</span>
+                               {{i.price}}<span> €</span>
+                           </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-xl-6 mb-mobile">
+            <div class="shadow p-1 mb-5 bg-white rounded-10">
+                <div class="card-body">
+                    <a href="{% url 'orders_all_page' %}">
+                    <div class="card-header point-click">
+                        <strong style="font-size:18px;"><i class="fas fa-tools me-2"></i>Orders for you</strong>
+                    </div>
+                    </a>
+                    {% if orders_ok %}
+                    {% for i in list_orders %}
+                    <a href="{% url 'detail_order_st_page' i.slug %}">
+                        <div class="form-group">
+                           <div id="order-{{i.id}}" name="{{i.id}}" class="myborder point-click">
+                               #{{ i.id }}
+                               <span>|</span>
+                               {{ i.order_car.car_brand }}
+                               {% if i.diagnostics %}
+                               <span>|</span>
+                                Diagnostics
+                                {% endif %}
+                               {% if i.inspection %}
+                               <span>|</span>
+                               Inspection
+                               {% endif %}
+                               {% if i.engine %}
+                               <span>|</span>
+                               Engine
+                               {% endif %}
+                               {% if i.chassis %}
+                               <span>|</span>
+                               Chassis
+                               {% endif %}
+                               {% if i.carcase %}
+                               <span>|</span>
+                               Carcase
+                               {% endif %}
+                               {% if i.electrical %}
+                               <span>|</span>
+                               Electrical
+                               {% endif %}
+                               {% if i.other %}
+                               <span>|</span>
+                               See description
+                               {% endif %}
+                           </div>
+
+                        </div>
+                    </a>
+                    {% endfor %}
+                        {% if see_all_orders %}
+                        <a href="{% url 'orders_all_page' %}">
+                            <div class="form-group">
+                               <div class="myborder point-click">
+                                   See all orders
+                               </div>
+                            </div>
+                        </a>
+                        {% endif %}
+                    {% else %}
+                    <div class="form-group">
+                       <div class="myborder">
+                        No new orders at the moment. Please check later
+                       </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="newmessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong class="modal-title" id="exampleModalLabel">Notification</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          {% if mes_st_ok %}
+            You have new messages.
+          {% for i in list_st_mes %}
+            <a href="{% url 'detail_messages_st_page' i.id %}">
+                <div class="form-group">
+                   <div class="myborder point-click">
+                       {{ i.customer.first_name }} {{ i.customer.last_name }}
+                       <span>|</span>
+                       {{i.text|truncatechars:34}}
+                   </div>
+                </div>
+            </a>
+            {% endfor %}
+          <hr>
+          {% endif %}
+          {% if list_offer_ch %}
+        <p class="mb-3">You have some offer which was chosen. Please confirm it to make service.</p>
+          {% for i in list_offer_ch %}
+            <a href="{% url 'confirm_offer_page' i.slug %}">
+                <div class="form-group">
+                   <div id="order"  name="{{i.id}}" class="myborder point-click">
+                       #{{ i.id }}
+                       <span>| Order #</span>
+                       {{i.order.id}}
+                       <span>|</span>
+                       {{ i.order.order_car.car_brand }}
+                       {% if i.order.diagnostics %}
+                       <span>|</span>
+                        Diagnostics
+                        {% endif %}
+                       {% if i.order.inspection %}
+                       <span>|</span>
+                       Inspection
+                       {% endif %}
+                       {% if i.order.engine %}
+                       <span>|</span>
+                       Engine
+                       {% endif %}
+                       {% if i.order.chassis %}
+                       <span>|</span>
+                       Chassis
+                       {% endif %}
+                       {% if i.order.carcase %}
+                       <span>|</span>
+                       Carcase
+                       {% endif %}
+                       {% if i.order.electrical %}
+                       <span>|</span>
+                       Electrical
+                       {% endif %}
+                       {% if i.order.other %}
+                       <span>|</span>
+                       Other
+                       {% endif %}
+                       <span>|</span>
+                       {{i.termin_1_d}}<span>-</span>{{i.termin_1_t|time:"H:i"}}
+                       <span>|</span>
+                       {{i.price}}<span> €</span>
+                   </div>
+                </div>
+            </a>
+          {% endfor %}
+      {% endif %}
+      </div>
+      <div class="modal-footer text-end">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href="{% url 'offers_st_page' %}" type="button" class="btn btn-primary">Go to check offers</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{% if offer_chosen %}
+
+<script type="text/javascript">
+    $(window).on('load', function() {
+        $('#newmessage').modal('show');
+    });
+</script>
+
+{% endif %}
+
+{% endblock scripts %}

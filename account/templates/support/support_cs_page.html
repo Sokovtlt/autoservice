@@ -1,0 +1,169 @@
+{% extends 'customer/customer.html' %}
+{% block page_title %}Support | AutoDaddy{% endblock %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="col-10 col-md-9 offset-13 main-page" id="main">
+
+
+                {% if messages %}
+                    <div class="alert alert-success">
+                      {% for m in messages %}
+                        {{m}}
+                      {% endfor %}
+                    </div>
+                {% endif %}
+                {% if form.file.errors %}
+                <div class="alert alert-danger">
+                    {{ form.file.errors }}
+                </div>
+                {% endif %}
+
+    {% if tickets %}
+
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row equal">
+                <div class="col-12 col-md-6 mb-mobile">
+                    <div class="row">
+                        <div class="col-12 button-end">
+                            <button type="button" class="btn btn-secondary align-self-end w-100" data-bs-toggle="modal"
+                                    data-bs-target="#addTicket">
+                              Add a new ticket
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mt-3">
+                            <div class="shadow p-1 mb-2 bg-white rounded-10">
+                                <div class="card-body">
+
+                                    <div class="card-header{% if i.read %} read{% endif %}">
+                                        <strong style="font-size:18px;">
+                                            Tickets
+                                        </strong>
+                                    </div>
+
+                                    {% for i in tickets %}
+
+                                    <div class="form-group mt-3">
+                                        <a data-bs-toggle="collapse" href="#collapse_{{i.id}}" role="button"
+                                                               aria-expanded="false" aria-controls="collapse_{{i.id}}">
+                                            <div id="button_{{i.id}}" class="myborder chatpreview">
+                                                <span class="ms-4">Ticket #{{ i.ticket }}
+                                                {% if i.solved %} - SOLVED{% endif %}</span>
+                                                {% if i.number_new_messages != 0  %}
+                                                    <span id="number_mes" class="mes-ind
+                                                    translate-middle badge rounded-pill bg-danger">
+                                                        {{i.number_new_messages}}
+                                                    </span>
+                                                {% endif %}
+                                            </div>
+                                        </a>
+
+                                        <div class="collapse" id="collapse_{{i.id}}">
+                                            <div class="card card-body card-message">
+                                                {{ i.last_message.text }}
+                                                  <br>
+                                                <a href="{% url 'detail_support_cs_page' i.last_message.id %}">
+                                                <small class="gotochat">Go to ticket</small></a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+
+    <h1 class="h1-account">Support</h1>
+    <div class="button-end">
+        <button type="button" class="btn btn-secondary align-self-end" data-bs-toggle="modal" data-bs-target="#addTicket">
+          Add ticket
+        </button>
+    </div>
+
+{% endif %}
+
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addTicket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addTicketLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addTicketLabel">New ticket</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form id="add_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-12">
+
+                    {{form.text|first}}
+                    </div>
+                </div>
+                <div class="row mt-2">
+
+                    <div id="form_file" class="col-12">
+                        {{form.file}}
+                        {% if form.file.errors %}
+                        {{ form.file.errors }}
+                        {% endif %}
+                    </div>
+                    {% if big_file %}
+                    <ul class="errorlist">
+                        <li>You cannot upload file more than 5Mb</li>
+                    </ul>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button form="add_form" type="submit" class="btn btn-primary">Create ticket</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+{% for i in tickets %}
+
+$('#button_{{i.id}}').click(function() {
+    var collapse = {{i.id}}
+    {% for item in tickets %}
+        if (collapse != {{item.id}}) {
+        $('#collapse_{{item.id}}').removeClass('show');
+        }
+    {% endfor %}
+});
+
+{% endfor %}
+</script>
+{% endblock %}
