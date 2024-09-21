@@ -114,7 +114,11 @@
                                 </div>
                             </div>
                             <div class="col-6 text-end">
+                                {% if logged %}
+                                <button form="no_form" type="button" class="btn btn-secondary">You are already logged</button>
+                                {% else %}
                                 <button form="add_form" type="submit" class="btn btn-secondary">Register</button>
+                                {% endif %}
                             </div>
                         </div>
                     </form>

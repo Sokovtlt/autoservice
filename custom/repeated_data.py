@@ -1,7 +1,7 @@
-from account import models
+from account.models import Customer
 
 
-def output(self):
+def current_data(self):
     kwargs = {}
     current_user = self.request.user
     kwargs['current_user'] = current_user
@@ -32,3 +32,14 @@ def output(self):
     #     if support[0].admin_support:
     #         kwargs['support'] = 'Dashboard'
     return kwargs
+
+
+def customer_data(self):
+    customer_kwargs = {}
+    current_user = self.request.user
+    list_customer = Customer.objects.filter(username=current_user.username)
+    if len(list_customer) > 0:
+        customer_kwargs['current_customer'] = list_customer[0]
+    else:
+        customer_kwargs['current_customer'] = False
+    return customer_kwargs

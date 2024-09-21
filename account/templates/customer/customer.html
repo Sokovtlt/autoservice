@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-{% url 'index_page' as url_index %}
+{% url 'start_page' as url_start_page %}
 {% url 'register_customer_page' as url_reg_customer %}
 {% url 'register_station_page' as url_reg_station %}
 {% url 'login_page' as url_login %}
@@ -78,7 +78,7 @@
                        <div id="mainmenu" class="mainmenu">
                            <ul class="nav">
 
-                               <li><a href="{{url_index}}">Home</a>
+                               <li><a href="{{url_start_page}}">Website start page</a>
                                </li>
 
                                {% if user.is_authenticated %}
@@ -86,7 +86,7 @@
                                     <li><a href="{% url 'dashboard_owner_page' %}">Owner</a>
                                     {% else %}
 
-                                        {% if current_customer %}
+                                        {% if current_customer_check %}
                                        <li><a href="{% url 'detail_customer_page' current_customer.slug %}">
                                            My profile</a></li>
                                         <li><a href="{{url_logout}}">log out</a></li>
@@ -118,7 +118,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'cars_page' %}"
+                    <!-- url 'cars_page'-->
+                    <a href="#"
                         class="nav-point{% if url_cars_page == request.path %} active{% endif %}
                             {% if cars_url %} active{% endif %}">
                         <span class="icon">
@@ -138,7 +139,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'offers_customer_page' %}" class="nav-point
+                    <a href="#" class="nav-point  <!--  'offers_customer_page' -->
                        {% if offer_url %} active{% endif %}">
                         <span class="icon">
                             <i class="fas fa-briefcase fa-lg"></i>
@@ -147,7 +148,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'messages_cs_page' %}" class="nav-point position-relative
+                  <a href="#" class="nav-point position-relative  <!--   'messages_cs_page' -->
                             {% if url_messages_cs_page == request.path %} active{% endif %}
                             {% if messages_url %} active{% endif %}">
 
@@ -164,7 +165,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'detail_customer_page' current_customer.slug %}"
+                    <!--  url 'detail_customer_page' current_customer.slug-->
+                   <a href="#"
                        class="nav-point{% if customer_url %} active{% endif %}">
                         <span class="icon">
                             <i class="fas fa-cogs fa-lg"></i>
@@ -185,7 +187,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{url_logout}}" class="nav-point">
+                    <a href="{% url 'logout_page' %}" class="nav-point">
                         <span class="icon">
                             <i class="fas fa-sign-out-alt fa-lg"></i>
                         </span>
@@ -391,117 +393,7 @@ toggle.onclick = function() {
     navigation.classList.toggle('active')
 };
 
-// check messages
-setInterval(function() {
-    function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-    }
-    const csrftoken = getCookie('csrftoken');
-    var user_id = {{request.user.id}};
-    var review_data = {
-            current_user: user_id,
-        }
-    $.ajax({
-        type: 'POST',
-        url: {% url 'check_message_cs_ajax' %},
-        headers: {'X-CSRFToken': csrftoken},
-        data: review_data,
-        dataType: 'json',
-        success: function (response) {
-            const new_messages = JSON.parse(response.mes_list);
-            var number_mes = new_messages.length;
-            $('#number_mes').text(new_messages.length);
-            if (new_messages.length != 0) {
-                $('#number_mes').css("visibility", "visible");
-            } else {
-                $('#number_mes').css("visibility", "hidden");
-            };
-            for (const message of new_messages.values()) {
-                var message_pk = message;
-                if (message_pk.fields.showed == false) {
-                $('.message-corner').css("visibility", "visible");
-                $('.message-corner').addClass("active");
-                $('#message-from-name').text(message_pk.fields.station_name);
-                var text_mes = message_pk.fields.text;
-                var text_mes = text_mes.replaceAll('<br>', ' ');
-                var text_mes = text_mes.slice(0,450);
-                $('#message-text').text(text_mes);
-                var url_message_detail = 'https://autodaddy.at/messages-chats/' + message_pk.pk + '/'
-                $('#message-text').parent('a').attr('href', url_message_detail);
-                $('#message-from-name').addClass("active");
-                $('#message-text').addClass("active");
-                $('#close-message').addClass("active");
-                };
-            };
-        },
-        error: function (response) {
-            console.log(response)
-            console.log('error')
-        },
-    })
-}, 8000); //20 seconds
 
-// close corner message
-$('#close-message').click(function() {
-    function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-    }
-    const csrftoken = getCookie('csrftoken');
-    var user_id = {{request.user.id}};
-    var review_data = {
-            current_user: user_id,
-        }
-    $.ajax({
-        type: 'POST',
-        url: {% url 'check_message_cs_showed_ajax' %},
-        headers: {'X-CSRFToken': csrftoken},
-        data: review_data,
-        dataType: 'json',
-        success: function (response) {
-            const new_messages = JSON.parse(response.mes_show_list);
-            $('.message-corner').css("visibility", "hidden");
-        },
-        error: function (response) {
-            console.log(response)
-            console.log('error')
-        },
-    })
-},);
-
-// hide the top message
-$(document).ready(function() {
-  $("#top_message").delay(20000).slideUp(300);
-});
-
-$('#add_form').submit(function(e) {
-    console.log('seicas');
-    $('#preloader').css("visibility", "visible");
-    $('#preloader').css("opacity", "1");
-});
 
 </script>
 
