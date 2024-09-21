@@ -34,7 +34,7 @@ class RegisterCustomerView(CreateView):
     success_msg = W_MESSAGE_CREATE_USER
 
     def get_context_data(self, **kwargs):
-        kwargs = current_data(self)
+        kwargs = {**current_data(self), **customer_data(self)}
         current_user = kwargs['current_user']
         # current_customer = kwargs['current_customer']
         if kwargs['current_customer']:
