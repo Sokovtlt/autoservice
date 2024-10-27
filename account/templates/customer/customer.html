@@ -24,7 +24,7 @@
 		<meta name="description" content="We are AutoDaddy">
         <meta name="author" content="AutoDaddy">
 
-        <title>{% block page_title %}Personal account AutoDaddy{% endblock %}</title>
+        <title>{% block page_title %}{{w_account}}{% endblock %}</title>
 
 		<link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
 
@@ -59,7 +59,6 @@
         {% block style %}
         {% endblock style %}
 
-<!--        <script src="{% static 'js/theme/vendor/modernizr-2.8.3-respond-1.4.2.min.js' %}"></script>-->
     </head>
     <body>
         <div id='preloader' >
@@ -71,8 +70,8 @@
         <header id="header" class="header-section">
             <div class="container">
                 <nav class="navbar ">
-                    <a href="{{url_index}}" class="navbar-brand">
-                        <img src="{% static 'img/logo.svg' %}" alt="AutoDaddy">
+                    <a href="{% url 'start_page' %}" class="navbar-brand">
+                        <img src="{% static 'img/logo.svg' %}" alt="AutoService">
                     </a>
                     <div class="d-flex menu-wrap align-items-center">
                        <div id="mainmenu" class="mainmenu">
@@ -165,8 +164,7 @@
                     </a>
                 </li>
                 <li>
-                    <!--  url 'detail_customer_page' current_customer.slug-->
-                   <a href="#"
+                   <a href="{% url 'detail_customer_page' current_customer.slug %}"
                        class="nav-point{% if customer_url %} active{% endif %}">
                         <span class="icon">
                             <i class="fas fa-cogs fa-lg"></i>
@@ -305,7 +303,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="{% url 'update_customer_page' get_customer.slug %}"
+<!--                                    url 'update_customer_page' get_customer.slug-->
+                                    <a href="#"
                                        class="btn btn-secondary mb-3" style="width:100%;">Edit your data</a>
                                 </div>
                                 <div class="col-md-6">

@@ -11,7 +11,7 @@ With this web application, car owners can find the nearest car repair station an
 
 
 ## <a id="start">Start</a>
-To run the application, download the project files. Download static.zip [here](https://drive.google.com/drive/folders/1JoHl8JHkdApiKgjUOxkFsL0fm4m7QgcF?usp=sharing) and put it to folder account. Create docker-compose.yml file and add the Django secret key.
+To run the application, download the project files. Download static.zip [here](https://drive.google.com/drive/folders/1EEW_9R36Qxe8lty2lRqLKscnAzhGL5D5?usp=sharing) and put it to folder account. Create docker-compose.yml file and add the Django secret key.
 
 ```python
 version: '3.8'
@@ -44,7 +44,9 @@ $ docker-compose up -d --build
 
 
 ### <a id="tech">Technologies</a>
-For the installation and launch of the project, you need [Python](https://www.python.org/downloads/release/python-3110/) v3.11 and [Docker](https://docker.com/).
+For the installation and launch of the project, you need [Docker](https://docker.com/).
+Project uses [Python](https://www.python.org/downloads/release/python-3110/) v3.11,
+[Django ](https://docs.djangoproject.com/en/4.2/) v4.2 and [JvaScript](https://devdocs.io/javascript/).
 
 ### <a id="nuances">Nuances</a>
 The project has only the start page

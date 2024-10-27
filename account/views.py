@@ -7,14 +7,30 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse, reverse_lazy, NoReverseMatch
+from django.contrib import messages
 
-from custom.repeated_data import current_data, customer_data
+from custom.repeated_data import current_data, customer_data, reset_password_words
 from account.models import User
 from .forms import *
 
 
 #localization
 W_MESSAGE_CREATE_USER = 'The user is created successfully'
+
+
+class CustomSuccessMessageMixin:
+    """The class for displaying a message when working with the form.
+    The inherited classes receive the variable success_msg, and a message is passed in it"""
+    @property
+    def success_msg(self):
+        return False
+
+    def error_msg(self):
+        return False
+
+    def form_valid(self, form):
+        messages.success(self.request, self.success_msg, self.error_msg)
+        return super().form_valid(form)
 
 
 class StartPageView(TemplateView):
@@ -65,7 +81,7 @@ class RegisterCustomerView(CreateView):
         try:
             self.object.save()  # Попробуем сохранить пользователя
         except Exception as e:
-            print(f"Ошибка при сохранении пользователя: {e}")
+            # print(f"Ошибка при сохранении пользователя: {e}")
             form.add_error(None, "Error saving user")
             return self.form_invalid(form)
         aut_user = authenticate(username=username, password=password)
@@ -111,10 +127,6 @@ class RegisterStationView(CreateView):
         return form_valid
 
 
-# class MyprojectLogout(LogoutView):
-#     next_page = reverse_lazy('start_page')
-
-
 class UserLoginView(LoginView):
     template_name = 'auth_reg/login.html'
     form_class = AuthUserForm
@@ -143,8 +155,7 @@ class UserPasswordResetView(PasswordResetView):
     template_name = 'auth_reg/password_reset_form.html'
 
     def get_context_data(self, **kwargs):
-        kwargs = current_data(self)
-        kwargs['update'] = True
+        kwargs = reset_password_words(self)
         return super().get_context_data(**kwargs)
 
 
@@ -156,10 +167,18 @@ class UserPasswordResetDone(PasswordResetDoneView):
 class UserPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'auth_reg/password_reset_confirm.html'
 
+    def get_context_data(self, **kwargs):
+        kwargs = reset_password_words(self)
+        return super().get_context_data(**kwargs)
+
 
 class UserPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'auth_reg/password_reset_complete.html'
     title = ('Password reset complete')
+
+    def get_context_data(self, **kwargs):
+        kwargs = reset_password_words(self)
+        return super().get_context_data(**kwargs)
 
 
 class DashboardCustomerView(LoginRequiredMixin, ListView):
@@ -198,4 +217,18 @@ class DashboardCustomerView(LoginRequiredMixin, ListView):
         # list_cust = StationList.objects.filter(customer=current_user).distinct().order_by('-update_date')[:5]
         # if list_cust:
         #     kwargs['list_cust'] = list_cust
+        return super().get_context_data(**kwargs)
+
+
+class DetailCustomerView(LoginRequiredMixin, DetailView, CustomSuccessMessageMixin):
+    """Info about a customer"""
+    model = Customer
+    template_name = 'customer/customer.html'
+    context_object_name = 'get_customer'
+
+    def get_context_data(self, **kwargs):
+        kwargs = {**current_data(self), **customer_data(self)}
+        current_user = self.object
+        # kwargs['list_car'] = Car.objects.filter(Q(author=current_user) & Q(deleted=False))
+        kwargs['customer_url'] = True
         return super().get_context_data(**kwargs)
