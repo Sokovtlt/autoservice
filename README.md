@@ -46,7 +46,7 @@ $ docker-compose up -d --build
 ### <a id="tech">Technologies</a>
 For the installation and launch of the project, you need [Docker](https://docker.com/).
 Project uses [Python](https://www.python.org/downloads/release/python-3110/) v3.11,
-[Django ](https://docs.djangoproject.com/en/4.2/) v4.2 and [JvaScript](https://devdocs.io/javascript/).
+[Django ](https://docs.djangoproject.com/en/4.2/) v4.2 and [JavaScript](https://devdocs.io/javascript/).
 
 ### <a id="nuances">Nuances</a>
 The project has only the start page
