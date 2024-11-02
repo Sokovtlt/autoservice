@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import Textarea
 from .models import *
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm
@@ -76,6 +77,9 @@ class RegisterCustomerForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password"])
+        username = self.cleaned_data.get('email')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError(f"Username {username} is already taken")
         if commit:
             user.save()
         return user

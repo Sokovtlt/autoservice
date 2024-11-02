@@ -1,5 +1,5 @@
 {% extends 'customer/customer.html' %}
-{% block page_title %}Dashboard | AutoDaddy{% endblock %}
+{% block page_title %}Dashboard | AutoService{% endblock %}
 
 {% block content %}
 {% csrf_token %}
@@ -8,263 +8,158 @@
     <h1 class="h1-account">Hi {{current_customer.first_name}}!</h1>
     <div class="row equal">
 
+        <!--  Messges block  -->
         <div class="col-12 col-xl-6 mb-mobile">
             <div class="shadow p-1 mb-3 bg-white rounded-10">
                 <div class="card-body">
-                    <a href="{% url 'messages_cs_page' %}">
+                   <a href="#"> <!-- url 'messages_cs_page'-->
                     <div class="card-header point-click">
                         <strong style="font-size:18px;"><i class="fas fa-envelope me-2"></i>Messages</strong>
                     </div>
                     </a>
-                    {% for i in list_cust %}
-                    <a href="{% url 'detail_messages_cs_page' i.last_message.id %}">
+
+                    <a href="#">
                         <div class="form-group">
                            <div class="myborder point-click">
-                               {{ i.station.name_stat }}
+                               Name station 1
                                <span>|</span>
-                               {% if i.last_message.sender == 'S_CS' %}
-                               You:
-                               {% endif %}
-                               {{i.last_message.text|truncatechars:34}}
+                               Hello customer
                            </div>
                         </div>
                     </a>
-                    {% endfor %}
+
+                    <a href="#">
+                        <div class="form-group">
+                           <div class="myborder point-click">
+                               Name station 2
+                               <span>|</span>
+                               Hello customer
+                           </div>
+                        </div>
+                    </a>
+
                 </div>
             </div>
         </div>
+        <!--  Messges block end  -->
 
-{% if offer_ch %}
+
+        <!--  New Offers block  -->
         <div class="col-12 col-xl-6 mb-mobile">
             <div class="shadow p-1 mb-3 bg-white rounded-10">
                 <div class="card-body">
-                    <a href="{% url 'offers_customer_page' %}">
+                   <a href="#"> <!-- url 'offers_customer_page'-->
                         <div class="card-header point-click">
                             <strong style="font-size:18px;"><i class="fas fa-briefcase me-2"></i>Upcoming events</strong>
                         </div>
                     </a>
-                    {% for i in list_offers_chosen %}
-                    <a href="{% url 'detail_offer_customer_page' i.slug %}">
+                    <!--  Start cycle -->
+                    <a href="#">
                         <div class="form-group">
                            <div id="order"  name="{{i.id}}" class="myborder point-click">
-                               #{{ i.id }}
+                               34
                                <span>| Order #</span>
-                               {{i.order.id}}
+                               15
                                <span>|</span>
-                               {{ i.order.order_car.car_brand }}
-                               {% if i.order.diagnostics %}
+                               Audi
                                <span>|</span>
-                                Diagnostics
-                                {% endif %}
-                               {% if i.order.inspection %}
+
                                <span>|</span>
-                               Inspection
-                               {% endif %}
-                               {% if i.order.engine %}
+                               11.03.2025<span>-</span>10:20
                                <span>|</span>
-                               Engine
-                               {% endif %}
-                               {% if i.order.chassis %}
-                               <span>|</span>
-                               Chassis
-                               {% endif %}
-                               {% if i.order.carcase %}
-                               <span>|</span>
-                               Carcase
-                               {% endif %}
-                               {% if i.order.electrical %}
-                               <span>|</span>
-                               Electrical
-                               {% endif %}
-                               {% if i.order.other %}
-                               <span>|</span>
-                               Other
-                               {% endif %}
-                               <span>|</span>
-                               {{i.termin_1_d}}<span>-</span>{{i.termin_1_t|time:"H:i"}}
-                               <span>|</span>
-                               {{i.price}}<span> €</span>
+                               300<span> €</span>
                            </div>
 
                         </div>
                     </a>
-                    {% endfor %}
+                    <!--  End cycle -->
 
                 </div>
             </div>
         </div>
-{% else %}
+        <!--  New Offers block end  -->
+
+
+        <!--  All Offers block end  -->
         <div class="col-12 col-xl-6 mb-mobile">
             <div class="shadow p-1 mb-3 bg-white rounded-10">
                 <div class="card-body">
-                    <a href="{% url 'offers_customer_page' %}">
+                   <a href="#"> <!-- url 'offers_customer_page'-->
                     <div class="card-header point-click">
                         <strong style="font-size:18px;"><i class="fas fa-briefcase me-2"></i>All offers</strong>
                     </div>
                     </a>
-                    {% for i in list_offers %}
-                    <a href="{% url 'submit_offer_customer_page' i.slug %}">
+                    <!--  Start cycle -->
+                    <a href="#">
                         <div class="form-group">
-                           <div id="order"  name="{{i.id}}" class="myborder point-click">
-                               #{{ i.id }}
+                           <div id="order" name="{{i.id}}" class="myborder point-click">
+                               35
                                <span>| Order #</span>
-                               {{i.order.id}}
+                               15
                                <span>|</span>
-                               {{ i.order.order_car.car_brand }}
-                               {% if i.order.diagnostics %}
+                               Audi
                                <span>|</span>
-                                Diagnostics
-                                {% endif %}
-                               {% if i.order.inspection %}
+
                                <span>|</span>
-                               Inspection
-                               {% endif %}
-                               {% if i.order.engine %}
+                               11.03.2025<span>-</span>11:20
                                <span>|</span>
-                               Engine
-                               {% endif %}
-                               {% if i.order.chassis %}
-                               <span>|</span>
-                               Chassis
-                               {% endif %}
-                               {% if i.order.carcase %}
-                               <span>|</span>
-                               Carcase
-                               {% endif %}
-                               {% if i.order.electrical %}
-                               <span>|</span>
-                               Electrical
-                               {% endif %}
-                               {% if i.order.other %}
-                               <span>|</span>
-                               Other
-                               {% endif %}
-                               <span>|</span>
-                               {{i.termin_1_d}}<span>-</span>{{i.termin_1_t|time:"H:i"}}
-                               <span>|</span>
-                               {{i.price}}<span> €</span>
+                               400<span> €</span>
                            </div>
 
                         </div>
                     </a>
-                    {% endfor %}
-
-                </div>
-            </div>
-        </div>
-{% endif %}
-
-        <div class="col-12 col-xl-6 mb-mobile">
-            <div class="shadow p-1 mb-3 bg-white rounded-10">
-                <div class="card-body">
-                    <a href="{% url 'offers_customer_page' %}">
-                    <div class="card-header point-click">
-                        <strong style="font-size:18px;"><i class="fas fa-briefcase me-2"></i>
-                            Offers which you haven't seen</strong>
-                    </div>
-                    </a>
-                    {% if offer_new %}
-                    {% for i in list_offers_new %}
-                    <a href="{% url 'submit_offer_customer_page' i.slug %}">
+                    <a href="#">
                         <div class="form-group">
                            <div id="order"  name="{{i.id}}" class="myborder point-click">
-                               #{{ i.id }}
+                               37
                                <span>| Order #</span>
-                               {{i.order.id}}
+                               15
                                <span>|</span>
-                               {{ i.order.order_car.car_brand }}
-                               {% if i.order.diagnostics %}
+                               Audi
                                <span>|</span>
-                                Diagnostics
-                                {% endif %}
-                               {% if i.order.inspection %}
+
                                <span>|</span>
-                               Inspection
-                               {% endif %}
-                               {% if i.order.engine %}
+                               14.03.2025<span>-</span>14:00
                                <span>|</span>
-                               Engine
-                               {% endif %}
-                               {% if i.order.chassis %}
-                               <span>|</span>
-                               Chassis
-                               {% endif %}
-                               {% if i.order.carcase %}
-                               <span>|</span>
-                               Carcase
-                               {% endif %}
-                               {% if i.order.electrical %}
-                               <span>|</span>
-                               Electrical
-                               {% endif %}
-                               {% if i.order.other %}
-                               <span>|</span>
-                               Other
-                               {% endif %}
-                               <span>|</span>
-                               {{i.termin_1_d}}<span>-</span>{{i.termin_1_t|time:"H:i"}}
-                               <span>|</span>
-                               {{i.price}}<span> €</span>
+                               250<span> €</span>
                            </div>
 
                         </div>
                     </a>
-                    {% endfor %}
+                    <!--  End cycle -->
 
-                    {% endif %}
                 </div>
             </div>
         </div>
+        <!--  All Offers block end  -->
 
+
+        <!--  Orders block  -->
         <div class="col-12 col-xl-6 mb-mobile">
             <div class="shadow p-1 mb-3 bg-white rounded-10">
                 <div class="card-body">
-                    <a href="{% url 'orders_page' %}">
+                   <a href="#"> <!--  url 'orders_page'-->
                     <div class="card-header point-click">
                         <strong style="font-size:18px;"><i class="fas fa-tools me-2"></i>Your orders</strong>
                     </div>
                     </a>
-                    {% if orders_ok %}
-                    {% for i in list_orders %}
-                    <a href="{% url 'detail_order_page' i.slug %}">
+
+<!--                    Start cycle-->
+                    <a href="#">
                         <div class="form-group">
                            <div id="order-{{i.id}}" name="{{i.id}}" class="myborder point-click">
-                               #{{ i.id }}
+                               #15
                                <span>|</span>
                                {{ i.order_car.car_brand }}
-                               {% if i.diagnostics %}
-                               <span>|</span>
-                                Diagnostics
-                                {% endif %}
-                               {% if i.inspection %}
-                               <span>|</span>
-                               Inspection
-                               {% endif %}
-                               {% if i.engine %}
+                               Audi
                                <span>|</span>
                                Engine
-                               {% endif %}
-                               {% if i.chassis %}
-                               <span>|</span>
-                               Chassis
-                               {% endif %}
-                               {% if i.carcase %}
-                               <span>|</span>
-                               Carcase
-                               {% endif %}
-                               {% if i.electrical %}
-                               <span>|</span>
-                               Electrical
-                               {% endif %}
-                               {% if i.other %}
-                               <span>|</span>
-                               See description
-                               {% endif %}
+
                            </div>
 
                         </div>
                     </a>
-                    {% endfor %}
+<!--                    End cycle-->
                         {% if see_all_orders %}
                         <a href="{% url 'orders_all_page' %}">
                             <div class="form-group">
@@ -274,16 +169,16 @@
                             </div>
                         </a>
                         {% endif %}
-                    {% else %}
                     <div class="form-group">
                        <div class="myborder">
                         No new orders at the moment. Please check later
                        </div>
                     </div>
-                    {% endif %}
+
                 </div>
             </div>
         </div>
+        <!--  Orders block end  -->
 
     </div>
 
@@ -304,7 +199,7 @@
           {% if mes_ok %}
             You have new messages.
           {% for i in list_mes_new %}
-            <a href="{% url 'detail_messages_cs_page' i.id %}">
+           <a href="#"> <!-- url 'detail_messages_cs_page' i.id-->
                 <div class="form-group">
                    <div class="myborder point-click">
                        {{ i.station.name_stat }}
@@ -323,7 +218,7 @@
             You have a new offer.
           {% endif %}
           {% for i in list_offers_new %}
-            <a href="{% url 'submit_offer_customer_page' i.slug %}">
+          <a href="#">   <!--  url 'submit_offer_customer_page' i.slug-->
                 <div class="form-group">
                    <div id="order"  name="{{i.id}}" class="myborder point-click">
                        #{{ i.id }}
@@ -370,7 +265,7 @@
       </div>
       <div class="modal-footer text-end">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <a href="{% url 'offers_st_page' %}" type="button" class="btn btn-primary">Go to check offers</a>
+      <a href="#" type="button" class="btn btn-primary">Go to check offers</a> <!--  url 'offers_st_page'-->
       </div>
     </div>
   </div>
