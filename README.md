@@ -60,7 +60,7 @@ This application will be useful for car owners and car repair stations.
 
 ## <a id="todo">To do</a>
 - [x] add README
-- [ ] create a personal account page for car owners
+- [x] create a personal account page for car owners
 - [ ] create a personal account page for car repair stations
 - [ ] create adding car
 - [ ] create creating order
