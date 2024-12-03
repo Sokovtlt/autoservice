@@ -61,7 +61,7 @@ class Car(models.Model):
     slug = models.SlugField('slug', unique=True)
     run = models.IntegerField('Car mileage')
     create_date = models.DateTimeField('Date of adding', auto_now_add=True)
-    text = models.TextField('Discription')
+    text = models.TextField('Description')
     deleted = models.BooleanField('This car is deleted', default=False)
 
     def __str__(self):
