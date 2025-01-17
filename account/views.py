@@ -10,6 +10,7 @@ from django.urls import reverse, reverse_lazy, NoReverseMatch
 from django.contrib import messages
 
 from custom.repeated_data import current_data, customer_data, reset_password_words
+from custom.extra import CustomSuccessMessageMixin
 from account.models import User
 from .forms import *
 
@@ -18,19 +19,19 @@ from .forms import *
 W_MESSAGE_CREATE_USER = 'The user is created successfully'
 
 
-class CustomSuccessMessageMixin:
-    """The class for displaying a message when working with the form.
-    The inherited classes receive the variable success_msg, and a message is passed in it"""
-    @property
-    def success_msg(self):
-        return False
-
-    def error_msg(self):
-        return False
-
-    def form_valid(self, form):
-        messages.success(self.request, self.success_msg, self.error_msg)
-        return super().form_valid(form)
+# class CustomSuccessMessageMixin:
+#     """The class for displaying a message when working with the form.
+#     The inherited classes receive the variable success_msg, and a message is passed in it"""
+#     @property
+#     def success_msg(self):
+#         return False
+#
+#     def error_msg(self):
+#         return False
+#
+#     def form_valid(self, form):
+#         messages.success(self.request, self.success_msg, self.error_msg)
+#         return super().form_valid(form)
 
 
 class StartPageView(TemplateView):

@@ -21,9 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # compose
-SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = os.environ.get("DEBUG")
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")
+SECRET_KEY = 'django-insecure-*m1c&&(l&8_27!t@4n4+7a*ykxr^j_8kzudyi19o^qnxk939zi'
+DEBUG = True
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
