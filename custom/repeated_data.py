@@ -25,14 +25,6 @@ def current_data(self):
         'w_messages': 'Messages',
         'w_support': 'Support',
     }
-    # owner = AdministratorOwner.objects.filter(pk=current_user.id)
-    # if len(owner) != 0:
-    #     if owner[0].admin_owner:
-    #         'owner': True
-    # support = AdministratorSupport.objects.filter(pk=current_user.id)
-    # if len(support) != 0:
-    #     if support[0].admin_support:
-    #         'support': 'Dashboard'
     return kwargs
 
 
