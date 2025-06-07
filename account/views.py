@@ -189,34 +189,7 @@ class DashboardCustomerView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         kwargs = {**current_data(self), **customer_data(self)}
-        # current_user = kwargs['current_user']
-        # cur_cs = kwargs['current_customer']
-        # list_offers = Offer.objects.filter(Q(order__author=cur_cs) & Q(active=True))[:5]
-        # if len(list_offers) != 0:
-        #     kwargs['list_offers'] = list_offers
-        # list_orders = Order.objects.filter(Q(author=cur_cs) & Q(active=True))[:5]
-        # list_offers_chosen = Offer.objects.filter(
-        #     Q(order__author=current_user) & Q(chosen=True) & Q(active=True))[:5]
-        # kwargs['list_offers_chosen'] = list_offers_chosen
-        # if len(list_offers_chosen) != 0:
-        #     kwargs['offer_ch'] = True
-        # list_offers_new = Offer.objects.filter(
-        #     Q(order__author=current_user) & Q(chosen=False) & Q(read=False) & Q(active=True))[:5]
-        # if list_offers_new:
-        #     kwargs['list_offers_new'] = list_offers_new
-        #     if len(list_offers_new) != 0:
-        #         if len(list_offers_new) > 1:
-        #             kwargs['several_offers'] = True
-        #         kwargs['offer_new'] = True
-        # if list_orders:
-        #     kwargs['list_orders'] = list_orders
-        #     if len(list_orders) != 0:
-        #         kwargs['orders_ok'] = True
-        # if len(list_orders) > 10:
-        #     kwargs['see_all_orders'] = True
-        # list_cust = StationList.objects.filter(customer=current_user).distinct().order_by('-update_date')[:5]
-        # if list_cust:
-        #     kwargs['list_cust'] = list_cust
+
         return super().get_context_data(**kwargs)
 
 
