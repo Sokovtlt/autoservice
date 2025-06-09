@@ -16,7 +16,7 @@ class CarsView(LoginRequiredMixin, ListView, CustomSuccessMessageMixin):
     def get_context_data(self, **kwargs):
         # kwargs = output(self)
         current_user = self.request.user
-        list_car = Car.objects.filter(Q(author=current_user) & Q(deleted=False))
+        list_car = Car.objects.filter(author=current_user, deleted=False)
         kwargs['list_car'] = list_car
         if len(list_car) != 0:
             kwargs['car_block'] = True
