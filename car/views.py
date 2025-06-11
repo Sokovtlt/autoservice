@@ -18,6 +18,6 @@ class CarsView(LoginRequiredMixin, ListView, CustomSuccessMessageMixin):
         current_user = self.request.user
         list_car = Car.objects.filter(author=current_user, deleted=False)
         kwargs['list_car'] = list_car
-        if len(list_car) != 0:
+        if list_car:
             kwargs['car_block'] = True
         return super().get_context_data(**kwargs)
